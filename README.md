@@ -29,11 +29,6 @@
 
 ## 🛠️ Technical Implementation
 
-### 🏗️ Architecture Overview
-
-![System Architecture](docs/architecture.png)
-*Three-tier microservices architecture with agricultural data pipeline and AI components.* 🧩
-
 ### 💻 Development Stack
 
 | Component           | Technology                      |
