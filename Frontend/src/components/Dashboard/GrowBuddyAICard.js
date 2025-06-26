@@ -26,7 +26,7 @@ const GrowBuddyAICard = ({ onClick }) => {
           Grow Buddy <span className="ai-tag">AI</span>
         </h3>
         <span className="card-arrow" onClick={onClick}>
-          >
+
         </span>
       </div>
       <p className="description">

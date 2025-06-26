@@ -10,7 +10,6 @@ const PriceTrackerCard = ({ onClick }) => {
       <div className="card-header">
         <h3 className="card-title">Vegetable Price (Rs/kg)</h3>
         <span className="card-arrow" onClick={onClick}>
-          >
         </span>
       </div>
       <div className="legend">
