@@ -50,6 +50,8 @@ const Signup = () => {
                             <input
                                 type={showPassword ? 'text' : 'password'}
                                 placeholder="********"
+                                value={password}
+                                onChange={handlePasswordChange}
                             />
                             <FontAwesomeIcon
                                 icon={faEye}
@@ -58,7 +60,7 @@ const Signup = () => {
                             />
                         </div>
 
-                        <button type="submit" className="next-button">Next</button>
+                        <button type="submit" className="next-button" onClick={handleSubmit}>Next</button>
                     </form>
                 </div>
             </div>
