@@ -3,64 +3,63 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faApple } from '@fortawesome/free-brands-svg-icons';
 
 const SignIn = () => {
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+        const [email, setEmail] = React.useState('');
+        const [password, setPassword] = React.useState('');
 
-    const handleEmailChange = (e) => setEmail(e.target.value);
-    const handlePasswordChange = (e) => setPassword(e.target.value);
+        const handleEmailChange = (e) => setEmail(e.target.value);
+        const handlePasswordChange = (e) => setPassword(e.target.value);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle sign in logic here
-        console.log('Email:', email, 'Password:', password);
-    };
+        const handleSubmit = (e) => {
+                e.preventDefault();
+                // Handle sign in logic here
+                console.log('Email:', email, 'Password:', password);
+        };
 
-    return (
-        <>
-            <div className="signin-container">
-                <div className="signin-form">
-                    <h2>Sign in to</h2>
-                    <h1 className="logo">growa</h1>
-                    <p>
-                        Don’t have an account? <a href="#">Create an account</a><br />
-                        It takes less than a minute!
-                    </p>
+        return (
+                <>
+                        <div className="signin-container">
+                                <div className="signin-form">
+                                        <h2>Sign in to</h2>
+                                        <h1 className="logo">growa</h1>
+                                        <p>
+                                                Don’t have an account? <a href="#">Create an account</a><br />
+                                                It takes less than a minute!
+                                        </p>
 
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={handleEmailChange}
-                            required
-                        />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={handlePasswordChange}
-                            required
-                        />
-                        <a href="#" className="forgot-password">Forgot password?</a>
-                        <button type="submit" className="btn primary-btn">Sign in</button>
-                    </form>
-                    <button className="btn google-btn">
-                        <FontAwesomeIcon icon={faGoogle} /> Sign in with Google
-                    </button>
-                    <button className="btn apple-btn">
-                        <FontAwesomeIcon icon={faApple} /> Sign in with Apple ID
-                    </button>
-                </div>
-            </div>
-            <style>
-                {`body {
+                                        <form onSubmit={handleSubmit}>
+                                                <input
+                                                        type="email"
+                                                        placeholder="Email"
+                                                        value={email}
+                                                        onChange={handleEmailChange}
+                                                        required
+                                                />
+                                                <input
+                                                        type="password"
+                                                        placeholder="Password"
+                                                        value={password}
+                                                        onChange={handlePasswordChange}
+                                                        required
+                                                />
+                                                <a href="#" className="forgot-password">Forgot password?</a>
+                                                <button type="submit" className="btn primary-btn">Sign in</button>
+                                        </form>
+                                        <button className="btn google-btn">
+                                                <FontAwesomeIcon icon={faGoogle} /> Sign in with Google
+                                        </button>
+                                        <button className="btn apple-btn">
+                                                <FontAwesomeIcon icon={faApple} /> Sign in with Apple ID
+                                        </button>
+                                </div>
+                        </div>
+                        <style>
+                                {`body {
                         margin: 0;
                         font-family: 'Poppins', sans-serif;
                         background-color: #f8fef7;
                         background-image: url('./Frame 20.png');
-                        background-size: cover;
+                        background-size: 90%;
                         background-repeat: no-repeat;
-                        background-position: top center;
                         /* Changed from center to top center */
                         }
 
@@ -85,11 +84,14 @@ const SignIn = () => {
                 .signin-form h2 {
                         text-align: center;
                         margin-bottom: 0.2rem;
+                        font-size: 3.0rem;
+                        font-weight: 600;
                         
                 }
                 .signin-form h1 {
                         text-align: center;
                         color: #1a8f3d;
+                        font-size: 2.5rem;
                         font-weight: 700;
                         margin-bottom: 0.5rem;
                 }
@@ -149,7 +151,7 @@ const SignIn = () => {
                         gap: 8px;
                         }
                 .google-btn:hover, .apple-btn:hover {
-                        transition: background-color 0.5s ease;
+                        transition: background-color 0.3s ease;
 
                 .signin-image {
                         flex: 1;
@@ -162,9 +164,9 @@ const SignIn = () => {
                         max-width: 400px;
                         width: 100%;
                         }`}
-            </style>
-        </>
-    );
+                        </style>
+                </>
+        );
 };
 
 export default SignIn;
