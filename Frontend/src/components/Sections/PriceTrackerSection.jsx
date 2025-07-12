@@ -1,110 +1,200 @@
 import React, { useCallback, useMemo } from "react";
 
+const styles = {
+    container: {
+        minHeight: "100vh",
+        backgroundColor: "#F9FAFB",
+        padding: "1.5rem",
+    },
+    wrapper: {
+        maxWidth: "1120px",
+        margin: "0 auto",
+    },
+    title: {
+        fontSize: "1.875rem",
+        fontWeight: "bold",
+        color: "#1F2937",
+        marginBottom: "2rem",
+        textAlign: "center",
+    },
+    graphCard: {
+        backgroundColor: "#FFFFFF",
+        borderRadius: "1rem",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+        padding: "1.5rem",
+        marginBottom: "2rem",
+    },
+    legendContainer: {
+        display: "flex",
+        justifyContent: "center",
+        flexWrap: "wrap",
+        gap: "2rem",
+        marginBottom: "1.5rem",
+    },
+    legendItem: {
+        display: "flex",
+        alignItems: "center",
+        gap: "0.5rem",
+    },
+    priceText: {
+        fontSize: "1.125rem",
+        fontWeight: "600",
+        color: "#374151",
+    },
+    svgWrapper: {
+        position: "relative",
+    },
+    predictedButton: {
+        position: "absolute",
+        top: "1rem",
+        right: "1rem",
+        display: "flex",
+        alignItems: "center",
+        gap: "0.5rem",
+        backgroundColor: "#EFF6FF",
+        border: "1px solid #BFDBFE",
+        color: "#1D4ED8",
+        padding: "0.5rem 1rem",
+        borderRadius: "0.5rem",
+        cursor: "pointer",
+        transition: "background-color 0.2s",
+    },
+    tableWrapper: {
+        backgroundColor: "#FFFFFF",
+        borderRadius: "1rem",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+        overflow: "hidden",
+    },
+    table: {
+        width: "100%",
+        borderCollapse: "collapse",
+    },
+    th: {
+        padding: "1rem 1.5rem",
+        textAlign: "left",
+        fontSize: "0.75rem",
+        fontWeight: "500",
+        color: "#6B7280",
+        textTransform: "uppercase",
+        letterSpacing: "0.05em",
+        backgroundColor: "#F9FAFB",
+    },
+    td: {
+        padding: "1rem 1.5rem",
+        fontSize: "0.875rem",
+        whiteSpace: "nowrap",
+    },
+    tdGray: {
+        color: "#6B7280",
+    },
+    tdGreen: {
+        color: "#16A34A",
+        fontWeight: "500",
+    },
+    tdRed: {
+        color: "#DC2626",
+        fontWeight: "500",
+    },
+    tdNote: {
+        color: "#6B7280",
+    },
+    backButtonWrapper: {
+        marginTop: "1.5rem",
+        textAlign: "center",
+    },
+    backButton: {
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "0.5rem",
+        padding: "0.75rem 1.5rem",
+        backgroundColor: "#F3F4F6",
+        color: "#374151",
+        borderRadius: "0.5rem",
+        cursor: "pointer",
+        transition: "background-color 0.2s",
+    },
+    backButton: {
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        color: "#4b5563",
+        background: "none",
+        border: "none",
+        padding: "8px 12px",
+        borderRadius: "6px",
+        transition: "background-color 0.15s",
+        cursor: "pointer",
+    },
+
+    backButtonHover: {
+        backgroundColor: "#f3f4f6",
+    },
+
+    backButtonIcon: {
+        fontSize: "18px",
+    },
+
+    backButtonText: {
+        fontSize: "16px",
+    },
+};
+
+// Dummy data for demonstration; replace with real data or import as needed
 const marketData = [
     {
-        id: "potato",
-        name: "Potato",
-        color: "#4DBFBF",
-        priceToday: "Rs. 150/=",
-        peakSeason: "May-June",
-        maxYearly: "Rs. 8888/=",
-        minYearly: "Rs. 88/=",
-        notes: "Lorem ipsum",
-    },
-    {
-        id: "tomato",
+        id: 1,
         name: "Tomato",
-        color: "#9CCC65",
-        priceToday: "Rs. 350/=",
-        peakSeason: "Jan-April",
-        maxYearly: "Rs. 8888/=",
-        minYearly: "Rs. 88/=",
-        notes: "Lorem ipsum",
+        color: "#EF4444",
+        priceToday: "Rs320",
+        peakSeason: "May - July",
+        maxYearly: "Rs400",
+        minYearly: "Rs250",
+        notes: "High demand in summer.",
     },
     {
-        id: "lettuce",
-        name: "Lettuce",
-        color: "#5CB85C",
-        priceToday: "Rs. 400/=",
-        peakSeason: "Year round",
-        maxYearly: "Rs. 8888/=",
-        minYearly: "Rs. 88/=",
-        notes: "Lorem ipsum",
+        id: 2,
+        name: "Potato",
+        color: "#F59E42",
+        priceToday: "Rs280",
+        peakSeason: "November - January",
+        maxYearly: "Rs350",
+        minYearly: "Rs220",
+        notes: "Stable price.",
     },
     {
-        id: "carrot",
-        name: "Carrot",
-        color: "#f0f0f0",
-        priceToday: "Rs. 510/=",
-        peakSeason: "March",
-        maxYearly: "Rs. 8888/=",
-        minYearly: "Rs. 88/=",
-        notes: "Lorem ipsum",
-    },
-    {
-        id: "brinjal",
-        name: "Brinjal",
-        color: "#D4AC0D",
-        priceToday: "Rs. 80/=",
-        peakSeason: "August",
-        maxYearly: "Rs. 8888/=",
-        minYearly: "Rs. 88/=",
-        notes: "Lorem ipsum",
-    },
-    {
-        id: "beans",
-        name: "Beans",
-        color: "#f0f0f0",
-        priceToday: "Rs. 2100/=",
-        peakSeason: "Dec-May",
-        maxYearly: "Rs. 8888/=",
-        minYearly: "Rs. 88/=",
-        notes: "Lorem ipsum",
-    },
-    {
-        id: "pineapple",
-        name: "Pineapple",
-        color: "#f0f0f0",
-        priceToday: "Rs. 500/=",
-        peakSeason: "Nov-Dec",
-        maxYearly: "Rs. 8888/=",
-        minYearly: "Rs. 88/=",
-        notes: "Lorem ipsum",
+        id: 3,
+        name: "Onion",
+        color: "#6366F1",
+        priceToday: "Rs360",
+        peakSeason: "September - November",
+        maxYearly: "Rs420",
+        minYearly: "Rs300",
+        notes: "Volatile market.",
     },
 ];
 
 const graphCropsData = [
     {
-        name: "Lettuce",
-        color: "#5CB85C",
-        points: [500, 450, 420, 430, 440, 400, 380],
-    },
-    {
         name: "Tomato",
-        color: "#9CCC65",
-        points: [300, 350, 400, 420, 380, 430, 450],
+        color: "#EF4444",
+        isPredicted: false,
+        points: [320, 340, 360, 380, 400, 390, 370],
     },
     {
         name: "Potato",
-        color: "#4DBFBF",
-        points: [380, 280, 300, 320, 280, 350, 280],
+        color: "#F59E42",
+        isPredicted: false,
+        points: [280, 290, 300, 310, 320, 315, 310],
     },
     {
-        name: "Predicted A",
-        color: "#FFEE58",
-        points: [220, 320, 380, 480, 420, 450, 400].map((p) => p + 20),
+        name: "Onion",
+        color: "#6366F1",
         isPredicted: true,
-    },
-    {
-        name: "Predicted B",
-        color: "#7DD3FC",
-        points: [350, 330, 310, 290, 340, 300, 320].map((p) => p - 20),
-        isPredicted: true,
+        points: [360, 370, 380, 390, 400, 410, 420],
     },
 ];
 
 const PriceTrackerSection = ({ onBack }) => {
-    // SVG Graph constants
     const graphConfig = useMemo(() => ({
         width: 800,
         height: 300,
@@ -117,13 +207,13 @@ const PriceTrackerSection = ({ onBack }) => {
 
     const { width: graphWidth, height: graphHeight, padding, yAxisLabels, xAxisLabels, yMin, yMax } = graphConfig;
 
-    const getX = useCallback((index) =>
-        padding + (index / (xAxisLabels.length - 1)) * (graphWidth - 2 * padding),
+    const getX = useCallback(
+        (index) => padding + (index / (xAxisLabels.length - 1)) * (graphWidth - 2 * padding),
         [padding, xAxisLabels.length, graphWidth]
     );
 
-    const getY = useCallback((value) =>
-        graphHeight - padding - ((value - yMin) / (yMax - yMin)) * (graphHeight - 2 * padding),
+    const getY = useCallback(
+        (value) => graphHeight - padding - ((value - yMin) / (yMax - yMin)) * (graphHeight - 2 * padding),
         [graphHeight, padding, yMin, yMax]
     );
 
@@ -134,45 +224,51 @@ const PriceTrackerSection = ({ onBack }) => {
     const topLegendItems = useMemo(() => marketData.slice(0, 3), []);
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
-            <div className="max-w-7xl mx-auto">
-                {/* Title */}
-                <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-                    Vegetable Price (Rs/kg)
-                </h2>
-
+        <div style={styles.container}>
+            <div style={styles.wrapper}>
+                {/* Header Row with Back Button and Title */}
+                <div style={{ display: "flex", alignItems: "center", marginBottom: "2rem" }}>
+                    {onBack && (
+                        <button onClick={onBack} style={styles.backButton}>
+                            <span style={styles.backButtonIcon}>←</span>
+                            <span style={styles.backButtonText}>Prices</span>
+                        </button>
+                    )}
+                    <h2 style={{ ...styles.title, marginBottom: 0, textAlign: "center", flex: 1 }}>
+                        Vegetable Price (Rs/kg)
+                    </h2>
+                </div>
                 {/* Graph Container */}
-                <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-                    {/* Top Legend */}
-                    <div className="flex justify-center gap-8 mb-6 flex-wrap">
+                <div style={styles.graphCard}>
+                    <div style={styles.legendContainer}>
                         {topLegendItems.map((item) => (
-                            <div key={item.id} className="flex items-center gap-2">
-                                <span
-                                    className="w-4 h-4 rounded-full"
-                                    style={{ backgroundColor: item.color }}
-                                />
-                                <span className="text-lg font-semibold text-gray-700">
-                                    {item.priceToday}
-                                </span>
+                            <div key={item.id} style={styles.legendItem}>
+                                <span style={{
+                                    width: "1rem",
+                                    height: "1rem",
+                                    borderRadius: "9999px",
+                                    backgroundColor: item.color,
+                                    display: "inline-block",
+                                }} />
+                                <span style={styles.priceText}>{item.priceToday}</span>
                             </div>
                         ))}
                     </div>
 
-                    {/* SVG Graph */}
-                    <div className="relative">
+                    <div style={styles.svgWrapper}>
                         <svg
                             width="100%"
                             viewBox={`0 0 ${graphWidth} ${graphHeight}`}
-                            className="border border-gray-200 rounded-lg"
+                            style={{ border: "1px solid #E5E7EB", borderRadius: "0.5rem" }}
                         >
-                            {/* Y-axis Labels and Grid Lines */}
                             {yAxisLabels.map((label) => (
                                 <g key={`y-axis-${label}`}>
                                     <text
                                         x={padding - 10}
                                         y={getY(label) + 5}
                                         textAnchor="end"
-                                        className="fill-gray-600 text-sm"
+                                        fill="#4B5563"
+                                        fontSize="12"
                                     >
                                         {label}
                                     </text>
@@ -181,39 +277,36 @@ const PriceTrackerSection = ({ onBack }) => {
                                         y1={getY(label)}
                                         x2={graphWidth - padding}
                                         y2={getY(label)}
-                                        className="stroke-gray-200"
+                                        stroke="#E5E7EB"
                                         strokeWidth="1"
                                     />
                                 </g>
                             ))}
 
-                            {/* X-axis Labels */}
                             {xAxisLabels.map((label, index) => (
                                 <text
                                     key={`x-axis-${label}`}
                                     x={getX(index)}
                                     y={graphHeight - padding + 20}
                                     textAnchor="middle"
-                                    className="fill-gray-600 text-sm"
+                                    fill="#4B5563"
+                                    fontSize="12"
                                 >
                                     {label}
                                 </text>
                             ))}
 
-                            {/* Data Lines */}
                             {graphCropsData.map((crop) => (
                                 <g key={crop.name}>
                                     <polyline
                                         fill="none"
                                         stroke={crop.color}
                                         strokeWidth="3"
-                                        strokeDasharray={crop.isPredicted ? "8 4" : "none"}
+                                        strokeDasharray={crop.isPredicted ? "8 4" : undefined}
                                         points={crop.points
                                             .map((point, index) => `${getX(index)},${getY(point)}`)
                                             .join(" ")}
-                                        className="drop-shadow-sm"
                                     />
-                                    {/* Data points */}
                                     {crop.points.map((point, index) => (
                                         <circle
                                             key={`${crop.name}-point-${index}`}
@@ -221,114 +314,68 @@ const PriceTrackerSection = ({ onBack }) => {
                                             cy={getY(point)}
                                             r="4"
                                             fill={crop.color}
-                                            className="drop-shadow-sm hover:r-6 transition-all cursor-pointer"
+                                            style={{ cursor: "pointer", transition: "all 0.2s" }}
                                         />
                                     ))}
                                 </g>
                             ))}
 
-                            {/* Vertical Dashed Line */}
                             <line
                                 x1={getX(1) + (getX(2) - getX(1)) * 0.7}
                                 y1={padding}
                                 x2={getX(1) + (getX(2) - getX(1)) * 0.7}
                                 y2={graphHeight - padding}
-                                className="stroke-gray-400"
+                                stroke="#9CA3AF"
                                 strokeWidth="2"
                                 strokeDasharray="6 4"
                             />
                         </svg>
 
-                        {/* Predicted Prices Button */}
-                        <button
-                            onClick={handlePredictedPricesClick}
-                            className="absolute top-4 right-4 flex items-center gap-2 bg-blue-50 hover:bg-blue-100 text-blue-700 px-4 py-2 rounded-lg transition-colors border border-blue-200"
-                        >
-                            <span className="text-sm">ⓘ</span>
-                            <span className="text-sm font-medium">Predicted prices</span>
+                        <button onClick={handlePredictedPricesClick} style={styles.predictedButton}>
+                            <span style={{ fontSize: "0.875rem" }}>ⓘ</span>
+                            <span style={{ fontSize: "0.875rem", fontWeight: "500" }}>Predicted prices</span>
                         </button>
                     </div>
                 </div>
 
                 {/* Price Table */}
-                <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead className="bg-gray-50">
+                <div style={styles.tableWrapper}>
+                    <div style={{ overflowX: "auto" }}>
+                        <table style={styles.table}>
+                            <thead>
                                 <tr>
-                                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Legend
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Vegetable
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Price Today
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Peak Season
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Max Yearly
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Min Yearly
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Notes
-                                    </th>
+                                    {["Legend", "Vegetable", "Price Today", "Peak Season", "Max Yearly", "Min Yearly", "Notes"].map((head) => (
+                                        <th key={head} style={styles.th}>{head}</th>
+                                    ))}
                                 </tr>
                             </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
+                            <tbody>
                                 {marketData.map((item, index) => (
                                     <tr
                                         key={item.id}
-                                        className={`hover:bg-gray-50 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-gray-25'
-                                            }`}
+                                        style={{ backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#FAFAFA", transition: "background-color 0.3s" }}
                                     >
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span
-                                                className="w-4 h-4 rounded-full inline-block"
-                                                style={{ backgroundColor: item.color }}
-                                            />
+                                        <td style={styles.td}>
+                                            <span style={{
+                                                width: "1rem",
+                                                height: "1rem",
+                                                borderRadius: "9999px",
+                                                display: "inline-block",
+                                                backgroundColor: item.color,
+                                            }} />
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                            {item.name}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-semibold">
-                                            {item.priceToday}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                            {item.peakSeason}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-medium">
-                                            {item.maxYearly}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-medium">
-                                            {item.minYearly}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {item.notes}
-                                        </td>
+                                        <td style={{ ...styles.td, color: "#111827", fontWeight: "500" }}>{item.name}</td>
+                                        <td style={{ ...styles.td, ...styles.tdGray, fontWeight: "600" }}>{item.priceToday}</td>
+                                        <td style={{ ...styles.td, ...styles.tdGray }}>{item.peakSeason}</td>
+                                        <td style={{ ...styles.td, ...styles.tdGreen }}>{item.maxYearly}</td>
+                                        <td style={{ ...styles.td, ...styles.tdRed }}>{item.minYearly}</td>
+                                        <td style={{ ...styles.td, ...styles.tdNote }}>{item.notes}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-                {/* Back Button (if needed) */}
-                {onBack && (
-                    <div className="mt-6 text-center">
-                        <button
-                            onClick={onBack}
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
-                        >
-                            <span>←</span>
-                            <span>Back</span>
-                        </button>
-                    </div>
-                )}
             </div>
         </div>
     );

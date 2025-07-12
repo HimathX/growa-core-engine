@@ -18,7 +18,7 @@ const GrowBuddyAICard = ({ onClick }) => {
     };
 
     return (
-        <div className="card grow-buddy-ai-card">
+        <div className="card grow-buddy-ai-card" onClick={() => onClick("growBuddyAI")}>
             <div className="card-header">
                 <h3 className="card-title">
                     Grow Buddy <span className="ai-tag">AI</span>

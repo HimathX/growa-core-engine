@@ -203,6 +203,10 @@ code {
   color: #33a853;
 }
 
+.yield-progress-card .card-header {
+  cursor: pointer;
+}
+
 .yield-progress-card .crop-selector {
   font-size: 0.95em;
   color: #555;
@@ -278,30 +282,13 @@ code {
 }
 
 .graph-placeholder {
-  height: 180px;
-  background-color: #f0f2f5;
-  border: 1px dashed #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #aaa;
-  font-size: 0.9em;
-  border-radius: 8px;
+  height: 300px;
+  /* increased for better chart visibility */
   margin-bottom: 15px;
-  /* Basic representation of lines */
-  background-image: linear-gradient(to right,
-      transparent 49.5%,
-      #ccc 49.5%,
-      #ccc 50.5%,
-      transparent 50.5%),
-    /* Vertical center line */
-    linear-gradient(to bottom,
-      transparent 49.5%,
-      #ccc 49.5%,
-      #ccc 50.5%,
-      transparent 50.5%);
-  /* Horizontal center line */
-  background-size: 100% 100%, 100% 100%;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.05);
 }
 
 .predicted-prices-btn {

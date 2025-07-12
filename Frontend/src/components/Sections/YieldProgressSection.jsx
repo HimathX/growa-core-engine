@@ -106,17 +106,11 @@ const YieldProgressSection = ({ onBack = () => console.log("Back button clicked"
                         padding: 24px;
                         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
                     }
-                    
-                    .header {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-bottom: 40px;
-                        flex-wrap: wrap;
-                        gap: 16px;
-                    }
-                    
+
                     .header-left {
+                        position: relative;
+                        top: 0px;
+                        left:-400px;
                         display: flex;
                         align-items: center;
                         gap: 20px;

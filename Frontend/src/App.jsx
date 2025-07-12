@@ -4,14 +4,14 @@ import "./App.css";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import Dashboard from "./components/Dashboard/Dashboard";
-import YieldProgressSection from "./components/Sections/YieldProgressSection";
-import PriceTrackerSection from "./components/Sections/PriceTrackerSection";
-import PointOfInterestMapSection from "./components/Sections/PointOfInterestMapSection";
-import GrowBuddyAISection from "./components/Sections/GrowBuddyAISection";
+import YieldProgressSection from "./components/Sections/YieldProgressSection.jsx";
+import PriceTrackerSection from "./components/Sections/PriceTrackerSection.jsx";
+import PointOfInterestMapSection from "./components/Sections/PointOfInterestMapSection.jsx";
+import GrowBuddyAISection from "./components/Sections/GrowBuddyAISection.jsx";
 // Dummy sections for Market, Diagnose, Plan
-import MarketSection from "./components/Sections/MarketSection";
-import DiagnoseSection from "./components/Sections/DiagnoseSection";
-import PlanSection from "./components/Sections/PlanSection";
+import MarketSection from "./components/Sections/MarketSection.jsx";
+import DiagnoseSection from "./components/Sections/DiagnoseSection.jsx";
+import PlanSection from "./components/Sections/PlanSection.jsx";
 
 function App() {
   const [currentView, setCurrentView] = useState("dashboard"); // 'dashboard', 'yieldProgress', etc.
