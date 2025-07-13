@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const Sidebar = ({ onNavClick, activeItem }) => {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
 
     const [languageDropdownVisible, setLanguageDropdownVisible] = useState(false);
 
@@ -16,6 +16,7 @@ const Sidebar = ({ onNavClick, activeItem }) => {
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
+        setLanguageDropdownVisible(false);
     };
 
     return (
@@ -27,25 +28,25 @@ const Sidebar = ({ onNavClick, activeItem }) => {
                         className={activeItem === "Home" ? "active" : ""}
                         onClick={() => handleItemClick("dashboard", "Home")}
                     >
-                        <span className="icon">🏠</span> Home
+                        <span className="icon">🏠</span> {t("home")}
                     </li>
                     <li
                         className={activeItem === "Market" ? "active" : ""}
                         onClick={() => handleItemClick("market", "Market")}
                     >
-                        <span className="icon">💰</span> Market
+                        <span className="icon">💰</span> {t("market")}
                     </li>
                     <li
                         className={activeItem === "Diagnose" ? "active" : ""}
                         onClick={() => handleItemClick("diagnose", "Diagnose")}
                     >
-                        <span className="icon">🩺</span> Diagnose
+                        <span className="icon">🩺</span> {t("diagnose")}
                     </li>
                     <li
                         className={activeItem === "Plan" ? "active" : ""}
                         onClick={() => handleItemClick("plan", "Plan")}
                     >
-                        <span className="icon">📊</span> Plan
+                        <span className="icon">📊</span> {t("plan")}
                     </li>
                 </ul>
             </nav>

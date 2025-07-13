@@ -12,6 +12,7 @@ import GrowBuddyAISection from "./components/Sections/GrowBuddyAISection.jsx";
 import MarketSection from "./components/Sections/MarketSection.jsx";
 import DiagnoseSection from "./components/Sections/DiagnoseSection.jsx";
 import PlanSection from "./components/Sections/PlanSection.jsx";
+import './i18n';
 
 function App() {
   const [currentView, setCurrentView] = useState("dashboard"); // 'dashboard', 'yieldProgress', etc.

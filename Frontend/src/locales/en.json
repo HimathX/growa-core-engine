@@ -1,7 +1,7 @@
 {
-    "welcome": "Welcome to Growa!",
-    "market": "Market",
     "home": "Home",
+    "market": "Market",
     "diagnose": "Diagnose",
-    "plan": "Plan"
+    "plan": "Plan",
+    "language": "Language"
 }
