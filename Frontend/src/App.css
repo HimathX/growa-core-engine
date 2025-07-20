@@ -153,7 +153,8 @@ code {
 }
 
 .dashboard {
-  padding: 25px;
+  padding: 40px 25px 25px 25px;
+  /* Added extra top padding to account for header */
   flex-grow: 1;
   overflow-y: auto;
   /* Allow dashboard itself to scroll if content is too long */
@@ -678,15 +679,19 @@ code {
 
 /* Placeholder for Sections (Generic) */
 .section-placeholder {
-  padding: 25px;
+  padding: 40px 25px 25px 25px;
+  /* Added extra top padding to account for header */
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  /* Changed from center to flex-start */
   text-align: center;
   overflow-y: auto;
   /* If section content is long */
+  min-height: calc(100vh - 70px);
+  /* Ensure full height minus header */
 }
 
 .section-placeholder h1 {
@@ -943,7 +948,8 @@ code {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 25px;
+  padding: 40px 25px 25px 25px;
+  /* Added extra top padding to account for header */
   gap: 25px;
   /* Space between top panels and bottom panel */
   background-color: #f8f9fa;
@@ -1435,7 +1441,8 @@ code {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 25px;
+  padding: 40px 25px 25px 25px;
+  /* Added extra top padding to account for header */
   background-color: #ffffff;
   /* White background for this section */
   overflow-y: auto;
@@ -1765,7 +1772,8 @@ code {
 
 /* Plan Section Styles */
 .plan-section-content {
-  padding: 20px 0;
+  padding: 30px 0 20px 0;
+  /* Added extra top padding */
 }
 
 .section-description {
@@ -2215,5 +2223,153 @@ code {
 
   .environmental-stats {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Current Crops Section Styles */
+.current-crops-section {
+  margin-bottom: 40px;
+  padding: 30px 0 20px 0;
+  /* Added extra top padding to avoid header overlap */
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.add-crop-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-crop-btn:hover {
+  background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.current-crops-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.crop-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.crop-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: #4CAF50;
+}
+
+.crop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.crop-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.crop-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.crop-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.crop-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+.crop-detail-item svg {
+  color: #4CAF50;
+  font-size: 14px;
+  width: 16px;
+  text-align: center;
+}
+
+.crop-detail-item span {
+  font-weight: 500;
+}
+
+.planning-tools-section {
+  border-top: 2px solid #f0f0f0;
+  padding-top: 40px;
+}
+
+.planning-tools-section .section-title {
+  margin-bottom: 16px;
+}
+
+/* Responsive design for current crops */
+@media (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .current-crops-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .crop-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .crop-status {
+    align-self: flex-start;
   }
 }
