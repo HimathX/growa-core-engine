@@ -1,68 +1,103 @@
-// import '../../App.css'; // Styles are in App.css
+import React, { useState, useEffect, useRef } from 'react';
 
 const GrowBuddyAISection = ({ onBack }) => {
-    // State variables (replacing React hooks with vanilla JS)
-    let messages = [
-        { id: 1, text: "Nisi ut aliquid ex ea commodi consequatur?", sender: "ai" },
+    const [messages, setMessages] = useState([
+        {
+            id: 1,
+            text: "Hello! I'm GrowBuddy, your AI farming assistant. How can I help you with your farming needs today?",
+            sender: "ai"
+        },
         {
             id: 2,
-            text: "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur",
+            text: "What's the best time to plant tomatoes in tropical climate?",
             sender: "user",
         },
         {
             id: 3,
-            text: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit?",
+            text: "For tropical climates, the best time to plant tomatoes is during the dry season, typically from November to February. This avoids the heavy rains that can cause fungal diseases. Make sure soil temperature is between 60-70°F and provide adequate drainage.",
             sender: "ai",
         },
         {
             id: 4,
-            text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+            text: "My soil pH is 8.2. Is this suitable for growing vegetables? What can I do to improve it?",
             sender: "user",
         },
-    ];
-    let newMessage = "";
-    let messagesEndRef = null;
+        {
+            id: 5,
+            text: "A pH of 8.2 is quite alkaline for most vegetables, which prefer 6.0-7.0. To lower pH: add organic matter like compost, use sulfur amendments, or grow acid-loving cover crops. For immediate planting, consider crops that tolerate alkaline soil like asparagus, cabbage, or beets.",
+            sender: "ai",
+        },
+    ]);
+    const [newMessage, setNewMessage] = useState("");
+    const messagesEndRef = useRef(null);
 
-    // Helper functions to simulate state updates
-    const setMessages = (newMessages) => {
-        messages = typeof newMessages === 'function' ? newMessages(messages) : newMessages;
-        renderComponent(); // Re-render component
-        setTimeout(scrollToBottom, 0); // Scroll after render
-    };
-
-    const setNewMessage = (value) => {
-        newMessage = value;
-        renderComponent(); // Re-render component
-    };
 
     const scrollToBottom = () => {
-        if (messagesEndRef) {
-            messagesEndRef.scrollIntoView({ behavior: "smooth" });
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
     };
 
-    // Effect equivalent - scroll to bottom when messages change
-    const scrollEffect = () => {
+
+    useEffect(() => {
         scrollToBottom();
-    };
+    }, [messages]);
 
     const handleSendMessage = () => {
         if (newMessage.trim() === "") return;
-        const newId =
-            messages.length > 0 ? messages[messages.length - 1].id + 1 : 1;
-        setMessages([...messages, { id: newId, text: newMessage, sender: "user" }]);
-        setNewMessage("");
-        console.log(`User message sent: ${newMessage}`);
+        const newId = messages.length > 0 ? messages[messages.length - 1].id + 1 : 1;
 
-        // Simulate AI response
+
+        setMessages(prev => [...prev, { id: newId, text: newMessage, sender: "user" }]);
+        const currentMessage = newMessage;
+        setNewMessage(""); // Clear input
+        console.log(`User message sent: ${currentMessage}`);
+
+
         setTimeout(() => {
             const aiResponseId = newId + 1;
-            setMessages((prevMessages) => [
-                ...prevMessages,
-                { id: aiResponseId, text: `AI Echo: ${newMessage}`, sender: "ai" },
+            const aiResponse = generateFarmingResponse(currentMessage);
+            setMessages(prev => [
+                ...prev,
+                { id: aiResponseId, text: aiResponse, sender: "ai" },
             ]);
-            console.log(`AI responded to: ${newMessage}`);
+            console.log(`AI responded to: ${currentMessage}`);
         }, 1000);
+    };
+
+
+    const generateFarmingResponse = (userMessage) => {
+        const message = userMessage.toLowerCase();
+
+        if (message.includes('water') || message.includes('irrigation')) {
+            return "For optimal watering, most vegetables need 1-2 inches per week. Water deeply but less frequently to encourage deep root growth. Morning watering is best to reduce evaporation and disease risk.";
+        } else if (message.includes('pest') || message.includes('insect') || message.includes('bug')) {
+            return "For pest management, try integrated pest management (IPM): encourage beneficial insects, use companion planting, apply neem oil for organic control, and rotate crops annually to break pest cycles.";
+        } else if (message.includes('fertilizer') || message.includes('nutrient')) {
+            return "A balanced 10-10-10 NPK fertilizer works for most vegetables. Organic options include compost, aged manure, and fish emulsion. Test your soil first to determine specific nutrient needs.";
+        } else if (message.includes('soil') || message.includes('ph')) {
+            return "Healthy soil is the foundation of good farming. Most crops prefer pH 6.0-7.0. Add organic matter regularly, test pH annually, and ensure good drainage for optimal plant health.";
+        } else if (message.includes('plant') || message.includes('seed') || message.includes('grow')) {
+            return "Successful planting depends on timing, soil temperature, and variety selection. Check your local growing zone, start with easy crops like lettuce or beans, and follow seed packet instructions for spacing and depth.";
+        } else if (message.includes('disease') || message.includes('fungus') || message.includes('rot')) {
+            return "Disease prevention is key: ensure good air circulation, avoid overhead watering, practice crop rotation, and remove affected plants promptly. Copper-based fungicides can help with fungal issues.";
+        } else if (message.includes('harvest') || message.includes('when') || message.includes('ready')) {
+            return "Harvest timing varies by crop. Look for visual cues: tomatoes should be firm and colored, lettuce before it bolts, and root vegetables when they're sized appropriately. Harvest in the morning when possible.";
+        } else if (message.includes('organic') || message.includes('natural')) {
+            return "Organic farming focuses on soil health and natural processes. Use compost, cover crops, beneficial insects, and avoid synthetic chemicals. It takes time to build healthy soil ecosystems.";
+        } else if (message.includes('climate') || message.includes('weather') || message.includes('temperature')) {
+            return "Climate considerations are crucial for farming success. Know your hardiness zone, track frost dates, choose appropriate varieties, and use season extension techniques like row covers when needed.";
+        } else {
+            // Generic helpful responses for other topics
+            const genericResponses = [
+                "That's an interesting question! Could you provide more specific details about your farming situation so I can give you better advice?",
+                "Based on general farming principles, I'd recommend researching your local growing conditions and consulting with nearby farmers or extension services for region-specific advice.",
+                "Every farm is unique! Consider factors like your soil type, climate zone, available resources, and crop goals when making farming decisions.",
+                "For the best results, I'd suggest starting small, keeping detailed records, and learning from both successes and challenges in your farming journey.",
+                "Agriculture is both an art and a science. Combining traditional knowledge with modern techniques often yields the best results for sustainable farming."
+            ];
+            return genericResponses[Math.floor(Math.random() * genericResponses.length)];
+        }
     };
 
     const handleInputChange = (e) => {
@@ -78,14 +113,7 @@ const GrowBuddyAISection = ({ onBack }) => {
 
     const handleNewChat = () => {
         console.log("New Chat button clicked.");
-        setMessages([]); // Clear current chat for a new one
-    };
-
-    // Function to render the component (in vanilla JS, you'd need to update the DOM)
-    const renderComponent = () => {
-        // This is a placeholder - in vanilla JS you'd need to update the DOM elements
-        console.log("Component state updated - would re-render in React");
-        scrollEffect(); // Call scroll effect after render
+        setMessages([]);
     };
 
     return (
@@ -93,7 +121,7 @@ const GrowBuddyAISection = ({ onBack }) => {
             <div className="chat-main-panel">
                 <div className="chat-header-ai">
                     <button onClick={onBack} className="chat-back-button">
-                        <span className="icon">←</span> Lores ipsum loertap
+                        <span className="icon">←</span> GrowBuddy AI Assistant
                     </button>
                 </div>
                 <div className="chat-messages-area">
@@ -105,7 +133,7 @@ const GrowBuddyAISection = ({ onBack }) => {
                             {msg.text}
                         </div>
                     ))}
-                    <div ref={(el) => (messagesEndRef = el)} />
+                    <div ref={messagesEndRef} />
                 </div>
                 <div className="chat-input-container-ai">
                     <input
@@ -113,7 +141,7 @@ const GrowBuddyAISection = ({ onBack }) => {
                         value={newMessage}
                         onChange={handleInputChange}
                         onKeyPress={handleKeyPress}
-                        placeholder="Your message..."
+                        placeholder="Ask about farming, crops, soil, pests, irrigation..."
                     />
                     <button onClick={handleSendMessage} className="send-button-ai">
                         ➤

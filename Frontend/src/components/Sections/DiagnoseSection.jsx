@@ -1,4 +1,4 @@
-// import '../../App.css'; // Styles are in App.css
+import React, { useState, useRef } from 'react';
 
 // Placeholder images (replace with actual URLs or local images if needed)
 const BUTTERFLY_IMAGE_URL = "https://i.imgur.com/gL4YQLK.png"; // Simple butterfly PNG
@@ -7,71 +7,59 @@ const MUSHROOM_PLACEHOLDER_URL = "https://i.imgur.com/kO7QeI7.png"; // Placehold
 const CATERPILLAR_PLACEHOLDER_URL = "https://i.imgur.com/tD19xG5.png"; // Placeholder caterpillar
 
 const DiagnoseSection = ({ onBack }) => {
-    // State variables
-    let uploadedImage = null;
-    let analysisResult = null;
-    let fromTheWeb = null;
-    let fileInputRef = null;
-
-    // Helper functions to update state (in a React app, these would use useState)
-    const setUploadedImage = (value) => {
-        uploadedImage = value;
-        renderComponent(); // Re-render component
-    };
-
-    const setAnalysisResult = (value) => {
-        analysisResult = value;
-        renderComponent(); // Re-render component
-    };
-
-    const setFromTheWeb = (value) => {
-        fromTheWeb = value;
-        renderComponent(); // Re-render component
-    };
+    // React state variables
+    const [uploadedImage, setUploadedImage] = useState(null);
+    const [analysisResult, setAnalysisResult] = useState(null);
+    const [fromTheWeb, setFromTheWeb] = useState(null);
+    const fileInputRef = useRef(null);
 
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         if (file && file.type.startsWith("image/")) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                // For demo, we use a fixed butterfly image preview
-                // In a real app, reader.result would be the uploaded image data URL
+                // Set uploaded image with actual preview
                 setUploadedImage({
-                    preview: BUTTERFLY_IMAGE_URL, // Using the fixed butterfly URL
-                    name: file.name, // "insect.jpeg" or similar from mockup
+                    preview: reader.result, // Use actual uploaded image
+                    name: file.name,
                     size: `${(file.size / 1024).toFixed(0)} KB`,
                 });
 
-                // Simulate analysis and populate with Lankan Thrip data
+                // Simulate analysis delay and populate with Lankan Thrip data
                 console.log(`Image "${file.name}" uploaded. Simulating analysis.`);
-                setAnalysisResult({
-                    confidence: "87%",
-                    ailmentName: "Lankan Thrip",
-                    description:
-                        "Biological insecticides such as the fungi Beauveria bassiana and Verticillium lecanii can kill thrips at all life-cycle stages. Insecticidal soap spray is effective against thrips.",
-                    suggestions: [
-                        "Lores ipsum dolor?",
-                        "How to get rid of larvae?",
-                        "Chemicals to get rid of Thrips",
-                        "Soap mix",
-                        "Biological insecticides",
-                    ],
-                });
-                setFromTheWeb({
-                    images: [
-                        { id: "beetle", src: BEETLE_PLACEHOLDER_URL, alt: "Beetle" },
-                        { id: "mushroom", src: MUSHROOM_PLACEHOLDER_URL, alt: "Mushroom" },
-                        {
-                            id: "caterpillar",
-                            src: CATERPILLAR_PLACEHOLDER_URL,
-                            alt: "Caterpillar",
-                        },
-                    ],
-                    title:
-                        "Thrips are minute (mostly 1 mm (0.04 in) long or less), slender insects with fringed wings and unique asymmetrical mouthparts. They fly only weakly and their feathery wings are unsuitable for conventional flight; instead, thrips exploit an unusual mechanism, clap and fling, to create lift using an unsteady circulation pattern with transient vortices near the wings.",
-                    fullText:
-                        "Thrips are a functionally diverse group; many of the known species are fungivorous. A small proportion of the species are serious pests of commercially important crops. Some of these serve as vectors for over 20 viruses that cause plant disease, especially the Tospoviruses. Many flower-dwelling species bring benefits as pollinators, with some predatory thrips feeding on small insects or mites. In the right conditions, such as in greenhouses, invasive species can exponentially increase in population size and form large swarms because of a lack of natural predators coupled with their ability to reproduce asexually, making them destructive to crops.",
-                });
+
+                // Simulate processing delay
+                setTimeout(() => {
+                    setAnalysisResult({
+                        confidence: "87%",
+                        ailmentName: "Lankan Thrip",
+                        description:
+                            "Biological insecticides such as the fungi Beauveria bassiana and Verticillium lecanii can kill thrips at all life-cycle stages. Insecticidal soap spray is effective against thrips.",
+                        suggestions: [
+                            "How to identify thrip damage?",
+                            "How to get rid of larvae?",
+                            "Chemicals to get rid of Thrips",
+                            "Natural soap mix solutions",
+                            "Biological insecticides guide",
+                        ],
+                    });
+
+                    setFromTheWeb({
+                        images: [
+                            { id: "beetle", src: BEETLE_PLACEHOLDER_URL, alt: "Beetle" },
+                            { id: "mushroom", src: MUSHROOM_PLACEHOLDER_URL, alt: "Mushroom" },
+                            {
+                                id: "caterpillar",
+                                src: CATERPILLAR_PLACEHOLDER_URL,
+                                alt: "Caterpillar",
+                            },
+                        ],
+                        title:
+                            "Thrips are minute (mostly 1 mm (0.04 in) long or less), slender insects with fringed wings and unique asymmetrical mouthparts. They fly only weakly and their feathery wings are unsuitable for conventional flight.",
+                        fullText:
+                            "Thrips are a functionally diverse group; many of the known species are fungivorous. A small proportion of the species are serious pests of commercially important crops. Some of these serve as vectors for over 20 viruses that cause plant disease, especially the Tospoviruses. Many flower-dwelling species bring benefits as pollinators, with some predatory thrips feeding on small insects or mites.",
+                    });
+                }, 1000); // 1 second delay to simulate processing
             };
             reader.readAsDataURL(file);
         } else {
@@ -80,8 +68,8 @@ const DiagnoseSection = ({ onBack }) => {
     };
 
     const triggerFileInput = () => {
-        if (fileInputRef) {
-            fileInputRef.click();
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
         }
     };
 
@@ -89,8 +77,8 @@ const DiagnoseSection = ({ onBack }) => {
         setUploadedImage(null);
         setAnalysisResult(null);
         setFromTheWeb(null);
-        if (fileInputRef) {
-            fileInputRef.value = ""; // Reset file input
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ""; // Reset file input
         }
         console.log("Uploaded image removed.");
     };
@@ -108,12 +96,6 @@ const DiagnoseSection = ({ onBack }) => {
         console.log("From The Web external link clicked.");
     };
 
-    // Function to render the component (in vanilla JS, you'd need to update the DOM)
-    const renderComponent = () => {
-        // This is a placeholder - in vanilla JS you'd need to update the DOM elements
-        console.log("Component state updated - would re-render in React");
-    };
-
     return (
         <div className="diagnose-section-container">
             <div className="diagnose-top-panels">
@@ -128,7 +110,7 @@ const DiagnoseSection = ({ onBack }) => {
                                 type="file"
                                 accept="image/*"
                                 onChange={handleImageUpload}
-                                ref={(el) => (fileInputRef = el)}
+                                ref={fileInputRef}
                                 style={{ display: "none" }}
                             />
                             <div className="upload-box-icon">

@@ -1,19 +1,50 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faApple } from '@fortawesome/free-brands-svg-icons';
+import App from './App';
+import Signup from './Signup.jsx';
 
 const SignIn = () => {
         const [email, setEmail] = React.useState('');
         const [password, setPassword] = React.useState('');
+        const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+        const [showSignup, setShowSignup] = React.useState(false);
 
         const handleEmailChange = (e) => setEmail(e.target.value);
         const handlePasswordChange = (e) => setPassword(e.target.value);
 
+        const handleSignupClick = (e) => {
+                e.preventDefault();
+                setShowSignup(true);
+        };
+
         const handleSubmit = (e) => {
                 e.preventDefault();
-                // Handle sign in logic here
-                console.log('Email:', email, 'Password:', password);
+
+                // Dummy authentication logic
+                if (email === 'admin' && password === '1234') {
+                        console.log('Login successful! Redirecting to dashboard...');
+                        setIsAuthenticated(true);
+                } else {
+
+                        alert('Invalid credentials! Please use:\nUsername: admin\nPassword: 1234');
+                        console.log('Login failed - Invalid credentials');
+                }
+
+                console.log('Login attempt - Email:', email, 'Password:', password);
         };
+
+
+
+        // If authenticated, render the main App
+        if (isAuthenticated) {
+                return <App />;
+        }
+
+        // If showSignup is true, render the Signup component
+        if (showSignup) {
+                return <Signup onBackToSignin={() => setShowSignup(false)} />;
+        }
 
         return (
                 <>
@@ -22,21 +53,21 @@ const SignIn = () => {
                                         <h2>Sign in to</h2>
                                         <h1 className="logo">growa</h1>
                                         <p>
-                                                Don’t have an account? <a href="#">Create an account</a><br />
+                                                Don’t have an account? <a href="#" onClick={handleSignupClick}>Create an account</a><br />
                                                 It takes less than a minute!
                                         </p>
 
                                         <form onSubmit={handleSubmit}>
                                                 <input
-                                                        type="email"
-                                                        placeholder="Email"
+                                                        type="text"
+                                                        placeholder="Username or Email "
                                                         value={email}
                                                         onChange={handleEmailChange}
                                                         required
                                                 />
                                                 <input
                                                         type="password"
-                                                        placeholder="Password"
+                                                        placeholder="Password "
                                                         value={password}
                                                         onChange={handlePasswordChange}
                                                         required

@@ -56,7 +56,7 @@ const Sidebar = ({ onNavClick, activeItem }) => {
                 onClick={toggleLanguageDropdown}
                 style={{ cursor: "pointer", position: "relative" }}
             >
-                <span className="icon">🌍</span> Language{" "}
+                <span className="icon">🌍</span> {t("language")}{" "}
                 <span style={{ marginLeft: "5px" }}>▼</span>
                 <div
                     className="language-dropdown"

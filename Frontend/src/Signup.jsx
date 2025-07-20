@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faTractor } from '@fortawesome/free-solid-svg-icons';
 
-const Signup = () => {
+const Signup = ({ onBackToSignin }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -61,6 +61,10 @@ const Signup = () => {
                         </div>
 
                         <button type="submit" className="next-button" onClick={handleSubmit}>Next</button>
+
+                        <p className="back-to-signin">
+                            Already have an account? <a href="#" onClick={onBackToSignin}>Back to Sign In</a>
+                        </p>
                     </form>
                 </div>
             </div>
@@ -190,7 +194,26 @@ const Signup = () => {
 
                 .next-button:hover {
                     background-color: #157b33;
-                    }   
+                    }
+
+                .back-to-signin {
+                    text-align: center;
+                    margin-top: 1rem;
+                    color: #666;
+                    font-size: 0.9rem;
+                }
+
+                .back-to-signin a {
+                    color: #1a8f3d;
+                    text-decoration: underline;
+                    cursor: pointer;
+                    font-weight: 500;
+                }
+
+                .back-to-signin a:hover {
+                    color: #157b33;
+                    text-decoration: none;
+                }   
                 `}
             </style>
         </>

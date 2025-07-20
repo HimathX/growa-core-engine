@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 // A summarized version of the main data, focusing on key milestones.
 // 'time' property (0.0 to 1.0) dictates progress.
 const keyMilestones = [
@@ -26,8 +28,18 @@ const keyMilestones = [
 ];
 
 const YieldProgressCard = ({ onClick }) => {
+    const vegetables = ["Carrots", "Potatoes", "Tomatoes", "Spinach"];
+
+    const [selectedVegetable, setSelectedVegetable] = useState(vegetables[0]);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
     const handleDropdownClick = () => {
-        console.log("Carrots dropdown clicked.");
+        setDropdownOpen((open) => !open);
+    };
+
+    const handleVegetableSelect = (veg) => {
+        setSelectedVegetable(veg);
+        setDropdownOpen(false);
     };
 
     // Calculate progress based on the last non-future event's time
@@ -45,19 +57,46 @@ const YieldProgressCard = ({ onClick }) => {
                 </h3>
                 <span className="card-arrow" onClick={onClick}></span>
             </div>
-            <div className="crop-selector" onClick={handleDropdownClick}>
-                <span className="icon">🌱</span> Carrots{" "}
+            <div className="crop-selector" onClick={handleDropdownClick} style={{ position: "relative", cursor: "pointer" }}>
+                <span className="icon">🌱</span> {selectedVegetable}{" "}
                 <span style={{ marginLeft: "5px" }}>▼</span>
+                {dropdownOpen && (
+                    <div className="dropdown-list" style={{
+                        position: "absolute",
+                        top: "100%",
+                        left: 0,
+                        background: "#fff",
+                        border: "1px solid #ccc",
+                        zIndex: 10,
+                        width: "100%"
+                    }}>
+                        {vegetables.map((veg) => (
+                            <div
+                                key={veg}
+                                className="dropdown-item"
+                                style={{
+                                    padding: "8px 12px",
+                                    cursor: "pointer",
+                                    background: veg === selectedVegetable ? "#f0f0f0" : "#fff"
+                                }}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleVegetableSelect(veg);
+                                }}
+                            >
+                                {veg}
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
             <p className="status-text">Going great!</p>
             <div className="progress-bar-container">
-                {/* The progress bar is now driven by the same logic as the full section */}
                 <div
                     className="progress-bar"
                     style={{ width: `${progressPercentage}%` }}
                 ></div>
             </div>
-            {/* REVISED: This now uses a data-driven flexbox layout */}
             <div className="yield-milestones-container">
                 {keyMilestones.map((milestone) => (
                     <div
