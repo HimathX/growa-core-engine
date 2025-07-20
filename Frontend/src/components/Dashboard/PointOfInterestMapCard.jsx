@@ -16,7 +16,7 @@ const PointOfInterestMapCard = ({ onClick, imageUrl }) => {
     const mapCenter = selectedLocation || defaultCenter;
 
 
-    const GOOGLE_MAPS_API_KEY = "YOUR_GOOGLE_MAPS_API_KEY";
+    const GOOGLE_MAPS_API_KEY = "AIzaSyCbKnCllIkyLwTR0gBivAlcKlEcp1chics";
 
     const handleAddLocationClick = (e) => {
         e.stopPropagation();
