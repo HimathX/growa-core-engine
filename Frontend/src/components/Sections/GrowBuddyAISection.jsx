@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { GEMINI_CONFIG } from '../../config/gemini';
+import '../../styles/gemini-chat.css';
+
+// Gemini API configuration
+const GEMINI_API_URL = `${GEMINI_CONFIG.API_URL}?key=${GEMINI_CONFIG.API_KEY}`;
 
 const GrowBuddyAISection = ({ onBack }) => {
     const [messages, setMessages] = useState([
         {
             id: 1,
-            text: "Hello! I'm GrowBuddy, your AI farming assistant. How can I help you with your farming needs today?",
+            text: "Hello! I'm GrowBuddy, your AI farming assistant powered by Google Gemini. How can I help you with your farming needs today?",
             sender: "ai"
         },
         {
@@ -29,6 +34,7 @@ const GrowBuddyAISection = ({ onBack }) => {
         },
     ]);
     const [newMessage, setNewMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
 
 
@@ -43,30 +49,52 @@ const GrowBuddyAISection = ({ onBack }) => {
         scrollToBottom();
     }, [messages]);
 
-    const handleSendMessage = () => {
-        if (newMessage.trim() === "") return;
-        const newId = messages.length > 0 ? messages[messages.length - 1].id + 1 : 1;
+    // Call Gemini API for farming-specific responses
+    const callGeminiAPI = async (userMessage) => {
+        try {
+            const farmingContext = `You are GrowBuddy, an expert AI farming assistant. Please provide helpful, practical advice about farming, agriculture, crops, soil, pests, irrigation, and related topics. Keep responses concise but informative. If the question is not related to farming, politely redirect the conversation back to agricultural topics.
 
+User question: ${userMessage}
 
-        setMessages(prev => [...prev, { id: newId, text: newMessage, sender: "user" }]);
-        const currentMessage = newMessage;
-        setNewMessage(""); // Clear input
-        console.log(`User message sent: ${currentMessage}`);
+Please provide a helpful farming response:`;
 
+            const requestBody = {
+                contents: [{
+                    parts: [{
+                        text: farmingContext
+                    }]
+                }],
+                generationConfig: GEMINI_CONFIG.GENERATION_CONFIG
+            };
 
-        setTimeout(() => {
-            const aiResponseId = newId + 1;
-            const aiResponse = generateFarmingResponse(currentMessage);
-            setMessages(prev => [
-                ...prev,
-                { id: aiResponseId, text: aiResponse, sender: "ai" },
-            ]);
-            console.log(`AI responded to: ${currentMessage}`);
-        }, 1000);
+            const response = await fetch(GEMINI_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+                return data.candidates[0].content.parts[0].text;
+            } else {
+                throw new Error('Invalid response format from Gemini API');
+            }
+        } catch (error) {
+            console.error('Error calling Gemini API:', error);
+            // Fallback to local responses if API fails
+            return generateFallbackResponse(userMessage);
+        }
     };
 
-
-    const generateFarmingResponse = (userMessage) => {
+    // Fallback responses if Gemini API fails
+    const generateFallbackResponse = (userMessage) => {
         const message = userMessage.toLowerCase();
 
         if (message.includes('water') || message.includes('irrigation')) {
@@ -77,26 +105,48 @@ const GrowBuddyAISection = ({ onBack }) => {
             return "A balanced 10-10-10 NPK fertilizer works for most vegetables. Organic options include compost, aged manure, and fish emulsion. Test your soil first to determine specific nutrient needs.";
         } else if (message.includes('soil') || message.includes('ph')) {
             return "Healthy soil is the foundation of good farming. Most crops prefer pH 6.0-7.0. Add organic matter regularly, test pH annually, and ensure good drainage for optimal plant health.";
-        } else if (message.includes('plant') || message.includes('seed') || message.includes('grow')) {
-            return "Successful planting depends on timing, soil temperature, and variety selection. Check your local growing zone, start with easy crops like lettuce or beans, and follow seed packet instructions for spacing and depth.";
-        } else if (message.includes('disease') || message.includes('fungus') || message.includes('rot')) {
-            return "Disease prevention is key: ensure good air circulation, avoid overhead watering, practice crop rotation, and remove affected plants promptly. Copper-based fungicides can help with fungal issues.";
-        } else if (message.includes('harvest') || message.includes('when') || message.includes('ready')) {
-            return "Harvest timing varies by crop. Look for visual cues: tomatoes should be firm and colored, lettuce before it bolts, and root vegetables when they're sized appropriately. Harvest in the morning when possible.";
-        } else if (message.includes('organic') || message.includes('natural')) {
-            return "Organic farming focuses on soil health and natural processes. Use compost, cover crops, beneficial insects, and avoid synthetic chemicals. It takes time to build healthy soil ecosystems.";
-        } else if (message.includes('climate') || message.includes('weather') || message.includes('temperature')) {
-            return "Climate considerations are crucial for farming success. Know your hardiness zone, track frost dates, choose appropriate varieties, and use season extension techniques like row covers when needed.";
         } else {
-            // Generic helpful responses for other topics
-            const genericResponses = [
-                "That's an interesting question! Could you provide more specific details about your farming situation so I can give you better advice?",
-                "Based on general farming principles, I'd recommend researching your local growing conditions and consulting with nearby farmers or extension services for region-specific advice.",
-                "Every farm is unique! Consider factors like your soil type, climate zone, available resources, and crop goals when making farming decisions.",
-                "For the best results, I'd suggest starting small, keeping detailed records, and learning from both successes and challenges in your farming journey.",
-                "Agriculture is both an art and a science. Combining traditional knowledge with modern techniques often yields the best results for sustainable farming."
-            ];
-            return genericResponses[Math.floor(Math.random() * genericResponses.length)];
+            return "I'm here to help with farming questions! Please ask me about crops, soil, pests, irrigation, or other agricultural topics.";
+        }
+    };
+
+    const handleSendMessage = async () => {
+        if (newMessage.trim() === "") return;
+        if (isLoading) return; // Prevent multiple requests
+
+        const newId = messages.length > 0 ? messages[messages.length - 1].id + 1 : 1;
+        const currentMessage = newMessage;
+
+        // Add user message
+        setMessages(prev => [...prev, { id: newId, text: currentMessage, sender: "user" }]);
+        setNewMessage(""); // Clear input
+        setIsLoading(true); // Show loading state
+
+        console.log(`User message sent: ${currentMessage}`);
+
+        try {
+            const aiResponse = await callGeminiAPI(currentMessage);
+            const aiResponseId = newId + 1;
+
+            setMessages(prev => [
+                ...prev,
+                { id: aiResponseId, text: aiResponse, sender: "ai" },
+            ]);
+            console.log(`AI responded to: ${currentMessage}`);
+        } catch (error) {
+            console.error('Error getting AI response:', error);
+            // Add error message
+            const aiResponseId = newId + 1;
+            setMessages(prev => [
+                ...prev,
+                {
+                    id: aiResponseId,
+                    text: "I'm sorry, I'm having trouble connecting right now. Please try again in a moment.",
+                    sender: "ai"
+                },
+            ]);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -113,7 +163,11 @@ const GrowBuddyAISection = ({ onBack }) => {
 
     const handleNewChat = () => {
         console.log("New Chat button clicked.");
-        setMessages([]);
+        setMessages([{
+            id: 1,
+            text: "Hello! I'm GrowBuddy, your AI farming assistant powered by Google Gemini. How can I help you with your farming needs today?",
+            sender: "ai"
+        }]);
     };
 
     return (
@@ -133,6 +187,16 @@ const GrowBuddyAISection = ({ onBack }) => {
                             {msg.text}
                         </div>
                     ))}
+                    {isLoading && (
+                        <div className="chat-bubble ai loading">
+                            <div className="typing-indicator">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            Thinking...
+                        </div>
+                    )}
                     <div ref={messagesEndRef} />
                 </div>
                 <div className="chat-input-container-ai">
@@ -141,10 +205,15 @@ const GrowBuddyAISection = ({ onBack }) => {
                         value={newMessage}
                         onChange={handleInputChange}
                         onKeyPress={handleKeyPress}
-                        placeholder="Ask about farming, crops, soil, pests, irrigation..."
+                        placeholder={isLoading ? "Processing your question..." : "Ask about farming, crops, soil, pests, irrigation..."}
+                        disabled={isLoading}
                     />
-                    <button onClick={handleSendMessage} className="send-button-ai">
-                        ➤
+                    <button
+                        onClick={handleSendMessage}
+                        className="send-button-ai"
+                        disabled={isLoading || newMessage.trim() === ""}
+                    >
+                        {isLoading ? "..." : "➤"}
                     </button>
                 </div>
             </div>

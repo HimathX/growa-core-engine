@@ -12,7 +12,7 @@ const Dashboard = ({ onCardClick }) => {
         <main className="dashboard">
             <div className="dashboard-grid">
                 <YieldProgressCard onClick={() => onCardClick("yieldProgress")} />
-                <PointOfInterestMapCard onClick={() => onCardClick("poiMap")} />
+                <PointOfInterestMapCard />
                 <PriceTrackerCard onClick={() => onCardClick("priceTracker")} />
                 <GrowBuddyAICard onClick={() => onCardClick("growBuddyAI")} />
             </div>
