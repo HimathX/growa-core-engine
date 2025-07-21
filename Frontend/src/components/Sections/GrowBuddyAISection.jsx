@@ -93,7 +93,7 @@ Please provide a helpful farming response:`;
         }
     };
 
-    // Fallback responses if Gemini API fails
+
     const generateFallbackResponse = (userMessage) => {
         const message = userMessage.toLowerCase();
 
