@@ -12,7 +12,7 @@ from core import (
 )
 from schemas import UserCreate, UserInDB, UserResponse ,Token, UserLogin
 
-router = APIRouter(tags=["authentication"])
+router = APIRouter(tags=["Authentication"])
 
 @router.post("/signup", response_model=UserResponse)
 async def signup(user: UserCreate):

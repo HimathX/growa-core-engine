@@ -8,7 +8,7 @@ from typing import Optional
 from bson import ObjectId
 
 
-router = APIRouter(tags=["chatbot"])
+router = APIRouter(tags=["Chatbot"])
 
 TOP_K_CHUNKS = 3
 

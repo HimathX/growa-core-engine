@@ -1,2 +1,3 @@
 from .vectorstore import VectorStore
 from .gemini import generate_gemini_response
+from .crop_recommendation_utils import CropPredictionService
