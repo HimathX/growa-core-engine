@@ -61,7 +61,6 @@
 
 * **Himath** (Team Lead & BackendDeveloper ) 🏅
 * **Pankaja** (UI/UX Designer & Frontend Developer) 🎨
-* **Haren** (Frontend Developer & ML Modal Developer) 💾
-* **Sithija** (Frontend Developer & DevOps Manager) 🚀
+* **Haren** (Frontend Developer ) 💾
 
 *Supported by Sri Lanka Agritech Innovation Fund 2025* 🌾
