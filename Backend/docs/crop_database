@@ -1,0 +1,292 @@
+{
+    "VANILLA": {
+        "base_yield_per_m2": 0.8, "days_to_harvest": 270, "price_per_kg": 15000,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["hill_country"], "water_requirement": "high"
+    },
+    "SAFFRON": {
+        "base_yield_per_m2": 0.02, "days_to_harvest": 120, "price_per_kg": 25000,
+        "preferred_soils": ["LOAMY", "SANDY"],
+        "climate_zones": ["hill_country"], "water_requirement": "medium"
+    },
+    "BLACK_PEPPER": {
+        "base_yield_per_m2": 1.2, "days_to_harvest": 180, "price_per_kg": 2500,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["wet_zone", "hill_country"], "water_requirement": "high"
+    },
+    "CARDAMOM": {
+        "base_yield_per_m2": 0.3, "days_to_harvest": 210, "price_per_kg": 8000,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["hill_country"], "water_requirement": "high"
+    },
+    "DRAGON_FRUIT": {
+        "base_yield_per_m2": 4.0, "days_to_harvest": 150, "price_per_kg": 800,
+        "preferred_soils": ["SANDY", "LOAMY"],
+        "climate_zones": ["dry_zone", "coastal"], "water_requirement": "medium"
+    },
+    "AVOCADO": {
+        "base_yield_per_m2": 8.0, "days_to_harvest": 365, "price_per_kg": 600,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["hill_country", "wet_zone"], "water_requirement": "medium"
+    },
+    "STRAWBERRY": {
+        "base_yield_per_m2": 2.5, "days_to_harvest": 90, "price_per_kg": 1200,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["hill_country"], "water_requirement": "high"
+    },
+    "PASSION_FRUIT": {
+        "base_yield_per_m2": 3.0, "days_to_harvest": 120, "price_per_kg": 400,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["coastal", "wet_zone"], "water_requirement": "medium"
+    },
+    "TURMERIC": {
+        "base_yield_per_m2": 2.0, "days_to_harvest": 240, "price_per_kg": 1500,
+        "preferred_soils": ["LOAMY", "CLAY"],
+        "climate_zones": ["wet_zone", "hill_country"], "water_requirement": "medium"
+    },
+    "GINGER": {
+        "base_yield_per_m2": 3.5, "days_to_harvest": 270, "price_per_kg": 800,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["wet_zone", "hill_country"], "water_requirement": "high"
+    },
+    "CHILI": {
+        "base_yield_per_m2": 1.8, "days_to_harvest": 120, "price_per_kg": 500,
+        "preferred_soils": ["LOAMY", "SANDY"],
+        "climate_zones": ["dry_zone", "coastal"], "water_requirement": "medium"
+    },
+    "ALOE_VERA": {
+        "base_yield_per_m2": 4.0, "days_to_harvest": 180, "price_per_kg": 300,
+        "preferred_soils": ["SANDY", "LOAMY"],
+        "climate_zones": ["dry_zone", "coastal"], "water_requirement": "low"
+    },
+    "POMEGRANATE": {
+        "base_yield_per_m2": 6.0, "days_to_harvest": 180, "price_per_kg": 700,
+        "preferred_soils": ["LOAMY", "SANDY"],
+        "climate_zones": ["dry_zone"], "water_requirement": "medium"
+    },
+    "LIME": {
+        "base_yield_per_m2": 5.0, "days_to_harvest": 120, "price_per_kg": 250,
+        "preferred_soils": ["LOAMY", "ALLUVIAL"],
+        "climate_zones": ["coastal", "wet_zone"], "water_requirement": "medium"
+    },
+    "LEMON": {
+        "base_yield_per_m2": 4.5, "days_to_harvest": 120, "price_per_kg": 300,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["coastal", "hill_country"], "water_requirement": "medium"
+    },
+    "TOMATO": {
+        "base_yield_per_m2": 8.0, "days_to_harvest": 90, "price_per_kg": 200,
+        "preferred_soils": ["LOAMY", "ALLUVIAL"],
+        "climate_zones": ["coastal", "hill_country"], "water_requirement": "high"
+    },
+    "CAPSICUM": {
+        "base_yield_per_m2": 6.0, "days_to_harvest": 85, "price_per_kg": 400,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["coastal", "hill_country"], "water_requirement": "medium"
+    },
+    "EGGPLANT": {
+        "base_yield_per_m2": 5.0, "days_to_harvest": 100, "price_per_kg": 150,
+        "preferred_soils": ["LOAMY", "CLAY"],
+        "climate_zones": ["coastal", "dry_zone"], "water_requirement": "medium"
+    },
+    "CUCUMBER": {
+        "base_yield_per_m2": 12.0, "days_to_harvest": 65, "price_per_kg": 120,
+        "preferred_soils": ["LOAMY", "ALLUVIAL"],
+        "climate_zones": ["coastal", "wet_zone"], "water_requirement": "high"
+    },
+    "GREEN_BEANS": {
+        "base_yield_per_m2": 3.0, "days_to_harvest": 60, "price_per_kg": 300,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["hill_country", "wet_zone"], "water_requirement": "medium"
+    },
+    "OKRA": {
+        "base_yield_per_m2": 2.5, "days_to_harvest": 70, "price_per_kg": 200,
+        "preferred_soils": ["LOAMY", "SANDY"],
+        "climate_zones": ["dry_zone", "coastal"], "water_requirement": "low"
+    },
+    "PAPAYA": {
+        "base_yield_per_m2": 15.0, "days_to_harvest": 300, "price_per_kg": 100,
+        "preferred_soils": ["LOAMY", "ALLUVIAL"],
+        "climate_zones": ["coastal", "wet_zone"], "water_requirement": "medium"
+    },
+    "BANANA": {
+        "base_yield_per_m2": 20.0, "days_to_harvest": 365, "price_per_kg": 80,
+        "preferred_soils": ["ALLUVIAL", "LOAMY"],
+        "climate_zones": ["wet_zone", "coastal"], "water_requirement": "high"
+    },
+    "CURRY_LEAVES": {
+        "base_yield_per_m2": 1.0, "days_to_harvest": 120, "price_per_kg": 600,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["coastal", "dry_zone"], "water_requirement": "low"
+    },
+    "BASIL": {
+        "base_yield_per_m2": 1.5, "days_to_harvest": 45, "price_per_kg": 800,
+        "preferred_soils": ["LOAMY", "SANDY"],
+        "climate_zones": ["coastal", "hill_country"], "water_requirement": "medium"
+    },
+    "MINT": {
+        "base_yield_per_m2": 2.0, "days_to_harvest": 50, "price_per_kg": 700,
+        "preferred_soils": ["LOAMY", "CLAY"],
+        "climate_zones": ["coastal", "wet_zone"], "water_requirement": "high"
+    },
+    "LEMONGRASS": {
+        "base_yield_per_m2": 1.8, "days_to_harvest": 90, "price_per_kg": 500,
+        "preferred_soils": ["LOAMY", "SANDY"],
+        "climate_zones": ["coastal", "dry_zone"], "water_requirement": "low"
+    },
+    "CORIANDER": {
+        "base_yield_per_m2": 1.2, "days_to_harvest": 40, "price_per_kg": 600,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["hill_country", "coastal"], "water_requirement": "medium"
+    },
+    "PARSLEY": {
+        "base_yield_per_m2": 1.0, "days_to_harvest": 45, "price_per_kg": 800,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["hill_country", "coastal"], "water_requirement": "medium"
+    },
+    "GUAVA": {
+        "base_yield_per_m2": 8.0, "days_to_harvest": 180, "price_per_kg": 150,
+        "preferred_soils": ["LOAMY", "ALLUVIAL"],
+        "climate_zones": ["coastal", "wet_zone"], "water_requirement": "medium"
+    },
+    "CABBAGE": {
+        "base_yield_per_m2": 6.0, "days_to_harvest": 90, "price_per_kg": 100,
+        "preferred_soils": ["LOAMY", "CLAY"],
+        "climate_zones": ["hill_country", "wet_zone"], "water_requirement": "medium"
+    },
+    "CAULIFLOWER": {
+        "base_yield_per_m2": 4.0, "days_to_harvest": 85, "price_per_kg": 180,
+        "preferred_soils": ["LOAMY", "CLAY"],
+        "climate_zones": ["hill_country"], "water_requirement": "high"
+    },
+    "CARROT": {
+        "base_yield_per_m2": 5.0, "days_to_harvest": 75, "price_per_kg": 200,
+        "preferred_soils": ["SANDY", "LOAMY"],
+        "climate_zones": ["hill_country", "wet_zone"], "water_requirement": "medium"
+    },
+    "ONION": {
+        "base_yield_per_m2": 4.5, "days_to_harvest": 120, "price_per_kg": 150,
+        "preferred_soils": ["LOAMY", "ALLUVIAL"],
+        "climate_zones": ["dry_zone"], "water_requirement": "medium"
+    },
+    "BEETS": {
+        "base_yield_per_m2": 4.0, "days_to_harvest": 80, "price_per_kg": 220,
+        "preferred_soils": ["LOAMY", "SANDY"],
+        "climate_zones": ["hill_country", "wet_zone"], "water_requirement": "medium"
+    },
+    "SPINACH": {
+        "base_yield_per_m2": 2.0, "days_to_harvest": 45, "price_per_kg": 300,
+        "preferred_soils": ["LOAMY", "CLAY"],
+        "climate_zones": ["hill_country", "wet_zone"], "water_requirement": "high"
+    },
+    "LETTUCE": {
+        "base_yield_per_m2": 3.0, "days_to_harvest": 50, "price_per_kg": 400,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["hill_country", "coastal"], "water_requirement": "high"
+    },
+    "KALE": {
+        "base_yield_per_m2": 2.5, "days_to_harvest": 60, "price_per_kg": 500,
+        "preferred_soils": ["LOAMY", "CLAY"],
+        "climate_zones": ["hill_country"], "water_requirement": "medium"
+    },
+    "GOTUKOLA": {
+        "base_yield_per_m2": 1.5, "days_to_harvest": 45, "price_per_kg": 600,
+        "preferred_soils": ["LOAMY", "CLAY"],
+        "climate_zones": ["wet_zone", "coastal"], "water_requirement": "high"
+    },
+    "MUKUNUWENNA": {
+        "base_yield_per_m2": 2.0, "days_to_harvest": 50, "price_per_kg": 400,
+        "preferred_soils": ["LOAMY", "ALLUVIAL"],
+        "climate_zones": ["wet_zone", "coastal"], "water_requirement": "high"
+    },
+    "KANKUN": {
+        "base_yield_per_m2": 3.5, "days_to_harvest": 40, "price_per_kg": 200,
+        "preferred_soils": ["ALLUVIAL", "CLAY"],
+        "climate_zones": ["wet_zone", "coastal"], "water_requirement": "high"
+    },
+    "SARANA": {
+        "base_yield_per_m2": 2.5, "days_to_harvest": 55, "price_per_kg": 300,
+        "preferred_soils": ["LOAMY", "ALLUVIAL"],
+        "climate_zones": ["wet_zone", "coastal"], "water_requirement": "medium"
+    },
+    "RADISH": {
+        "base_yield_per_m2": 3.0, "days_to_harvest": 35, "price_per_kg": 180,
+        "preferred_soils": ["SANDY", "LOAMY"],
+        "climate_zones": ["hill_country", "wet_zone"], "water_requirement": "medium"
+    },
+    "MANGO": {
+        "base_yield_per_m2": 12.0, "days_to_harvest": 120, "price_per_kg": 250,
+        "preferred_soils": ["LOAMY", "ALLUVIAL"],
+        "climate_zones": ["coastal", "dry_zone"], "water_requirement": "medium"
+    },
+    "JACKFRUIT": {
+        "base_yield_per_m2": 25.0, "days_to_harvest": 150, "price_per_kg": 100,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["wet_zone", "coastal"], "water_requirement": "medium"
+    },
+    "RAMBUTAN": {
+        "base_yield_per_m2": 8.0, "days_to_harvest": 120, "price_per_kg": 300,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["wet_zone"], "water_requirement": "high"
+    },
+    "MANGOSTEEN": {
+        "base_yield_per_m2": 6.0, "days_to_harvest": 180, "price_per_kg": 800,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["wet_zone"], "water_requirement": "high"
+    },
+    "WOOD_APPLE": {
+        "base_yield_per_m2": 10.0, "days_to_harvest": 150, "price_per_kg": 150,
+        "preferred_soils": ["SANDY", "LATERITE"],
+        "climate_zones": ["dry_zone"], "water_requirement": "low"
+    },
+    "TAMARIND": {
+        "base_yield_per_m2": 5.0, "days_to_harvest": 180, "price_per_kg": 400,
+        "preferred_soils": ["SANDY", "LATERITE"],
+        "climate_zones": ["dry_zone", "coastal"], "water_requirement": "low"
+    },
+    "MORINGA": {
+        "base_yield_per_m2": 3.0, "days_to_harvest": 90, "price_per_kg": 500,
+        "preferred_soils": ["LOAMY", "SANDY"],
+        "climate_zones": ["dry_zone", "coastal"], "water_requirement": "low"
+    },
+    "NEEM": {
+        "base_yield_per_m2": 2.0, "days_to_harvest": 120, "price_per_kg": 300,
+        "preferred_soils": ["SANDY", "LATERITE"],
+        "climate_zones": ["dry_zone", "coastal"], "water_requirement": "low"
+    },
+    "BRAHMI": {
+        "base_yield_per_m2": 0.8, "days_to_harvest": 60, "price_per_kg": 1500,
+        "preferred_soils": ["LOAMY", "CLAY"],
+        "climate_zones": ["wet_zone", "hill_country"], "water_requirement": "high"
+    },
+    "ASHWAGANDHA": {
+        "base_yield_per_m2": 1.0, "days_to_harvest": 180, "price_per_kg": 2000,
+        "preferred_soils": ["SANDY", "LOAMY"],
+        "climate_zones": ["dry_zone"], "water_requirement": "low"
+    },
+    "CHERRY_TOMATO": {
+        "base_yield_per_m2": 6.0, "days_to_harvest": 85, "price_per_kg": 400,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["hill_country", "coastal"], "water_requirement": "medium"
+    },
+    "BABY_CORN": {
+        "base_yield_per_m2": 4.0, "days_to_harvest": 70, "price_per_kg": 350,
+        "preferred_soils": ["LOAMY", "ALLUVIAL"],
+        "climate_zones": ["wet_zone", "hill_country"], "water_requirement": "medium"
+    },
+    "BROCCOLI": {
+        "base_yield_per_m2": 3.5, "days_to_harvest": 80, "price_per_kg": 450,
+        "preferred_soils": ["LOAMY", "CLAY"],
+        "climate_zones": ["hill_country"], "water_requirement": "high"
+    },
+    "ZUCCHINI": {
+        "base_yield_per_m2": 8.0, "days_to_harvest": 60, "price_per_kg": 200,
+        "preferred_soils": ["LOAMY", "ALLUVIAL"],
+        "climate_zones": ["hill_country", "coastal"], "water_requirement": "medium"
+    },
+    "BELL_PEPPER": {
+        "base_yield_per_m2": 5.0, "days_to_harvest": 90, "price_per_kg": 500,
+        "preferred_soils": ["LOAMY", "RED_EARTH"],
+        "climate_zones": ["hill_country", "coastal"], "water_requirement": "medium"
+    }
+}
