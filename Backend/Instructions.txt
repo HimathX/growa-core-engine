@@ -1,0 +1,125 @@
+# Growa Core Engine Backend
+
+A FastAPI-based backend service for crop recommendation and farm management.
+
+## Prerequisites
+
+- Python 3.8+
+- pip package manager
+- Windows/Linux/MacOS
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/growa-core-engine.git
+cd growa-core-engine/Backend
+```
+
+2. Create and activate a virtual environment:
+```bash
+python -m venv venv
+.\venv\Scripts\activate  # Windows
+source venv/bin/activate # Linux/MacOS
+```
+
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## Configuration
+
+1. Create a `.env` file in the root directory with the following variables:
+```env
+SECRET_KEY=your_secret_key_here
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+```
+
+## Project Structure
+
+```
+Backend/
+├── docs/
+│   └── Sri_lanka_micro_farm_dataset.csv
+├── routers/
+│   └── crop_recommendation.py
+├── schemas/
+│   ├── crop_recommendation.py
+│   └── token.py
+├── utils/
+│   └── crop_recommendation_utils.py
+├── main.py
+├── requirements.txt
+└── README.md
+```
+
+## Running the Application
+
+1. Start the FastAPI server:
+```bash
+uvicorn main:app --reload --port 8000
+```
+
+2. Access the API documentation:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+## API Endpoints
+
+### Crop Recommendation
+
+- **POST** `/api/v1/predict-crops`
+  - Get personalized crop recommendations based on farming conditions
+  - Request body: `CropPredictionRequest`
+  - Response: `PredictionResponse`
+
+## Request Example
+
+```json
+{
+  "district": "Colombo",
+  "climate_zone": "coastal",
+  "experience_level": "Beginner",
+  "budget_level": "Medium",
+  "farming_setup": "Backyard",
+  "soil_type": "Sandy",
+  "season": "Maha",
+  "crop_type_preference": "Vegetables",
+  "water_access": "Yes"
+}
+```
+
+## Development
+
+### Running Tests
+```bash
+pytest tests/
+```
+
+### Code Style
+Follow PEP 8 guidelines for Python code style.
+
+## Dependencies
+
+```
+fastapi
+uvicorn
+pandas
+numpy
+pydantic
+python-jose[cryptography]
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
