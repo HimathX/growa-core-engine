@@ -3,7 +3,7 @@ import logging
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth_router, pest_router, insects_router, chatbot_router, crop_recommendation_router, harvest_router
+from routers import auth_router, pest_router, insects_router, chatbot_router, crop_recommendation_router, harvest_router, crop_router
 from utils.vectorstore import initialize_vector_store
 from routers.chatbot import init_vector_store
 
@@ -52,6 +52,7 @@ app.include_router(insects_router, prefix="/insects")
 app.include_router(chatbot_router, prefix="/chatbot")
 app.include_router(crop_recommendation_router, prefix="/crop-recommendation")
 app.include_router(harvest_router, prefix="/harvest")
+app.include_router(crop_router, prefix="/crops")
 
 # CORS middleware
 app.add_middleware(

@@ -12,6 +12,7 @@ db = client["growa_db"]
 user_collection = db["User"]  
 crop_collection = db["crops"]
 chatbot_history_collection = db["chatbot_history"]
+crop_tasks_collection = db["crop_tasks"]
 
 # Check if connection is successful
 try:
