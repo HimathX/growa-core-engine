@@ -132,18 +132,15 @@ A comprehensive digital solution empowering farmers with AI-driven insights, rea
 ## 👥 Core Development Team
 
 * **Himath** (Team Lead & Backend Developer) 🏅  
-  *System architecture, API development, ML model integration, disease detection algorithms*
-* **Pankaja** (UI/UX Designer & Frontend Developer) 🎨  
-  *User experience design, responsive interfaces, mobile optimization, camera integration*
+* **Pankaja** (UI/UX Designer) 🎨  
 * **Haren** (Frontend Developer) 💻  
-  *Component development, API integration, performance optimization, image processing UI*
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.11.9
 - MongoDB 4.4+
 - Node.js 16+ (for frontend)
 - PyTorch 1.9+
@@ -168,19 +165,7 @@ cp .env.example .env
 uvicorn main:app --reload --host 127.0.0.1 --port 8081
 ```
 
-### API Endpoints
-- **Disease Detection**: `POST /pest/predict` - Upload image for disease diagnosis
-- **Insect Classification**: `POST /insects/predict` - Identify insects from photos
-- **Crop Management**: `POST /crops/` - Create and track crop lifecycle
-- **Market Analysis**: `GET /market/predictions` - Get price forecasts
-- **AI Chat**: `POST /chatbot/query` - Agricultural guidance and support
-
-### API Documentation
-Access interactive API docs at `http://localhost:8081/docs`
-
----
-
-## 📊 Impact Metrics
+### 📊 Impact Metrics
 
 * **Farmer Productivity**: Average 25% increase in yield through optimized crop selection and early disease detection
 * **Resource Efficiency**: 30% reduction in water usage via smart irrigation recommendations
