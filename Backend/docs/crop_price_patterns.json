@@ -1,0 +1,268 @@
+{
+    "VANILLA": {
+        "base_price_lkr": 25000, "volatility": 0.45, "seasonal_peak": [1,2,12], 
+        "export_ratio": 0.8, "weather_sensitivity": 0.7, "market_demand": "very_high"
+    },
+    "SAFFRON": {
+        "base_price_lkr": 850000, "volatility": 0.50, "seasonal_peak": [10,11,12], 
+        "export_ratio": 0.9, "weather_sensitivity": 0.8, "market_demand": "extreme"
+    },
+    "BLACK_PEPPER": {
+        "base_price_lkr": 2500, "volatility": 0.35, "seasonal_peak": [2,3,4], 
+        "export_ratio": 0.7, "weather_sensitivity": 0.6, "market_demand": "high"
+    },
+    "CARDAMOM": {
+        "base_price_lkr": 8000, "volatility": 0.40, "seasonal_peak": [10,11,12], 
+        "export_ratio": 0.75, "weather_sensitivity": 0.65, "market_demand": "high"
+    },
+    "CINNAMON": {
+        "base_price_lkr": 1200, "volatility": 0.25, "seasonal_peak": [1,2,11,12], 
+        "export_ratio": 0.85, "weather_sensitivity": 0.4, "market_demand": "high"
+    },
+    
+    "DRAGON_FRUIT": {
+        "base_price_lkr": 400, "volatility": 0.35, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.3, "weather_sensitivity": 0.8, "market_demand": "medium"
+    },
+    "AVOCADO": {
+        "base_price_lkr": 350, "volatility": 0.30, "seasonal_peak": [3,4,5], 
+        "export_ratio": 0.2, "weather_sensitivity": 0.6, "market_demand": "medium"
+    },
+    "PASSION_FRUIT": {
+        "base_price_lkr": 300, "volatility": 0.32, "seasonal_peak": [6,7,8,9], 
+        "export_ratio": 0.25, "weather_sensitivity": 0.7, "market_demand": "medium"
+    },
+    "WOOD_APPLE": {
+        "base_price_lkr": 80, "volatility": 0.28, "seasonal_peak": [3,4,5], 
+        "export_ratio": 0.05, "weather_sensitivity": 0.5, "market_demand": "low"
+    },
+    "STRAWBERRY": {
+        "base_price_lkr": 800, "volatility": 0.45, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.1, "weather_sensitivity": 0.9, "market_demand": "high"
+    },
+    "PAPAYA": {
+        "base_price_lkr": 120, "volatility": 0.25, "seasonal_peak": [6,7,8,9,10], 
+        "export_ratio": 0.15, "weather_sensitivity": 0.6, "market_demand": "medium"
+    },
+    "BANANA": {
+        "base_price_lkr": 100, "volatility": 0.20, "seasonal_peak": [1,2,3,4,5,6,7,8,9,10,11,12], 
+        "export_ratio": 0.2, "weather_sensitivity": 0.4, "market_demand": "high"
+    },
+    "LIME": {
+        "base_price_lkr": 200, "volatility": 0.35, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.1, "weather_sensitivity": 0.7, "market_demand": "medium"
+    },
+    "LEMON": {
+        "base_price_lkr": 250, "volatility": 0.38, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.15, "weather_sensitivity": 0.7, "market_demand": "medium"
+    },
+    "POMEGRANATE": {
+        "base_price_lkr": 450, "volatility": 0.30, "seasonal_peak": [10,11,12,1], 
+        "export_ratio": 0.3, "weather_sensitivity": 0.6, "market_demand": "medium"
+    },
+    "MANGOSTEEN": {
+        "base_price_lkr": 800, "volatility": 0.40, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.4, "weather_sensitivity": 0.8, "market_demand": "high"
+    },
+    "GUAVA": {
+        "base_price_lkr": 150, "volatility": 0.25, "seasonal_peak": [8,9,10], 
+        "export_ratio": 0.1, "weather_sensitivity": 0.5, "market_demand": "medium"
+    },
+    "MANGO": {
+        "base_price_lkr": 200, "volatility": 0.35, "seasonal_peak": [4,5,6], 
+        "export_ratio": 0.2, "weather_sensitivity": 0.6, "market_demand": "high"
+    },
+    "BREADFRUIT": {
+        "base_price_lkr": 80, "volatility": 0.20, "seasonal_peak": [7,8,9], 
+        "export_ratio": 0.05, "weather_sensitivity": 0.4, "market_demand": "low"
+    },
+    "JACKFRUIT": {
+        "base_price_lkr": 120, "volatility": 0.25, "seasonal_peak": [4,5,6,7], 
+        "export_ratio": 0.1, "weather_sensitivity": 0.5, "market_demand": "medium"
+    },
+    
+    "TOMATO": {
+        "base_price_lkr": 180, "volatility": 0.45, "seasonal_peak": [12,1,2,6,7], 
+        "export_ratio": 0.1, "weather_sensitivity": 0.9, "market_demand": "high"
+    },
+    "CHERRY_TOMATO": {
+        "base_price_lkr": 350, "volatility": 0.40, "seasonal_peak": [12,1,2,6,7], 
+        "export_ratio": 0.15, "weather_sensitivity": 0.9, "market_demand": "medium"
+    },
+    "CAPSICUM": {
+        "base_price_lkr": 250, "volatility": 0.40, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.15, "weather_sensitivity": 0.8, "market_demand": "medium"
+    },
+    "BELL_PEPPER": {
+        "base_price_lkr": 300, "volatility": 0.42, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.2, "weather_sensitivity": 0.8, "market_demand": "medium"
+    },
+    "EGGPLANT": {
+        "base_price_lkr": 120, "volatility": 0.30, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.05, "weather_sensitivity": 0.7, "market_demand": "medium"
+    },
+    "CUCUMBER": {
+        "base_price_lkr": 80, "volatility": 0.35, "seasonal_peak": [3,4,5], 
+        "export_ratio": 0.1, "weather_sensitivity": 0.8, "market_demand": "medium"
+    },
+    "GREEN_BEANS": {
+        "base_price_lkr": 180, "volatility": 0.32, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.2, "weather_sensitivity": 0.7, "market_demand": "medium"
+    },
+    "OKRA": {
+        "base_price_lkr": 150, "volatility": 0.30, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.1, "weather_sensitivity": 0.6, "market_demand": "medium"
+    },
+    "CHILI": {
+        "base_price_lkr": 400, "volatility": 0.50, "seasonal_peak": [3,4,5], 
+        "export_ratio": 0.4, "weather_sensitivity": 0.85, "market_demand": "high"
+    },
+    "CABBAGE": {
+        "base_price_lkr": 80, "volatility": 0.28, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.05, "weather_sensitivity": 0.6, "market_demand": "medium"
+    },
+    "CAULIFLOWER": {
+        "base_price_lkr": 120, "volatility": 0.35, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.1, "weather_sensitivity": 0.7, "market_demand": "medium"
+    },
+    "CARROT": {
+        "base_price_lkr": 150, "volatility": 0.25, "seasonal_peak": [12,1,2,3], 
+        "export_ratio": 0.15, "weather_sensitivity": 0.5, "market_demand": "medium"
+    },
+    "ONION": {
+        "base_price_lkr": 120, "volatility": 0.35, "seasonal_peak": [2,3,4], 
+        "export_ratio": 0.05, "weather_sensitivity": 0.7, "market_demand": "high"
+    },
+    "BEETS": {
+        "base_price_lkr": 180, "volatility": 0.28, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.1, "weather_sensitivity": 0.5, "market_demand": "low"
+    },
+    "RADISH": {
+        "base_price_lkr": 100, "volatility": 0.30, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.05, "weather_sensitivity": 0.6, "market_demand": "low"
+    },
+    "BABY_CORN": {
+        "base_price_lkr": 350, "volatility": 0.35, "seasonal_peak": [4,5,6], 
+        "export_ratio": 0.3, "weather_sensitivity": 0.7, "market_demand": "medium"
+    },
+    "BROCCOLI": {
+        "base_price_lkr": 300, "volatility": 0.38, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.2, "weather_sensitivity": 0.8, "market_demand": "medium"
+    },
+    "ZUCCHINI": {
+        "base_price_lkr": 200, "volatility": 0.32, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.1, "weather_sensitivity": 0.7, "market_demand": "low"
+    },
+    "BITTER_GOURD": {
+        "base_price_lkr": 120, "volatility": 0.30, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.05, "weather_sensitivity": 0.6, "market_demand": "medium"
+    },
+    "BOTTLE_GOURD": {
+        "base_price_lkr": 80, "volatility": 0.25, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.05, "weather_sensitivity": 0.5, "market_demand": "low"
+    },
+    
+    "TURMERIC": {
+        "base_price_lkr": 600, "volatility": 0.25, "seasonal_peak": [1,2,3], 
+        "export_ratio": 0.5, "weather_sensitivity": 0.5, "market_demand": "medium"
+    },
+    "GINGER": {
+        "base_price_lkr": 800, "volatility": 0.30, "seasonal_peak": [1,2,3], 
+        "export_ratio": 0.6, "weather_sensitivity": 0.6, "market_demand": "high"
+    },
+    "BASIL": {
+        "base_price_lkr": 300, "volatility": 0.35, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.3, "weather_sensitivity": 0.7, "market_demand": "medium"
+    },
+    "MINT": {
+        "base_price_lkr": 250, "volatility": 0.30, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.2, "weather_sensitivity": 0.6, "market_demand": "medium"
+    },
+    "CORIANDER": {
+        "base_price_lkr": 200, "volatility": 0.40, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.3, "weather_sensitivity": 0.8, "market_demand": "high"
+    },
+    "PARSLEY": {
+        "base_price_lkr": 350, "volatility": 0.38, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.4, "weather_sensitivity": 0.7, "market_demand": "medium"
+    },
+    "LEMONGRASS": {
+        "base_price_lkr": 180, "volatility": 0.25, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.6, "weather_sensitivity": 0.5, "market_demand": "medium"
+    },
+    "FENNEL": {
+        "base_price_lkr": 400, "volatility": 0.35, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.5, "weather_sensitivity": 0.6, "market_demand": "medium"
+    },
+    "FENUGREEK": {
+        "base_price_lkr": 300, "volatility": 0.30, "seasonal_peak": [1,2,3], 
+        "export_ratio": 0.4, "weather_sensitivity": 0.6, "market_demand": "medium"
+    },
+    "DILL": {
+        "base_price_lkr": 350, "volatility": 0.35, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.3, "weather_sensitivity": 0.7, "market_demand": "low"
+    },
+    
+    "SPINACH": {
+        "base_price_lkr": 150, "volatility": 0.40, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.05, "weather_sensitivity": 0.8, "market_demand": "medium"
+    },
+    "LETTUCE": {
+        "base_price_lkr": 200, "volatility": 0.42, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.1, "weather_sensitivity": 0.85, "market_demand": "medium"
+    },
+    "KALE": {
+        "base_price_lkr": 300, "volatility": 0.38, "seasonal_peak": [12,1,2], 
+        "export_ratio": 0.15, "weather_sensitivity": 0.8, "market_demand": "medium"
+    },
+    "GOTUKOLA": {
+        "base_price_lkr": 120, "volatility": 0.30, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.05, "weather_sensitivity": 0.6, "market_demand": "medium"
+    },
+    "MUKUNUWENNA": {
+        "base_price_lkr": 100, "volatility": 0.28, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.05, "weather_sensitivity": 0.6, "market_demand": "low"
+    },
+    "KANKUN": {
+        "base_price_lkr": 80, "volatility": 0.25, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.05, "weather_sensitivity": 0.5, "market_demand": "low"
+    },
+    
+    "ALOE_VERA": {
+        "base_price_lkr": 150, "volatility": 0.20, "seasonal_peak": [1,2,3,4,5,6,7,8,9,10,11,12], 
+        "export_ratio": 0.4, "weather_sensitivity": 0.3, "market_demand": "medium"
+    },
+    "CURLY_LEAVES": {
+        "base_price_lkr": 200, "volatility": 0.35, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.2, "weather_sensitivity": 0.6, "market_demand": "low"
+    },
+    "MORINGA": {
+        "base_price_lkr": 300, "volatility": 0.25, "seasonal_peak": [1,2,3,4,5,6,7,8,9,10,11,12], 
+        "export_ratio": 0.7, "weather_sensitivity": 0.4, "market_demand": "high"
+    },
+    "NEEM": {
+        "base_price_lkr": 180, "volatility": 0.22, "seasonal_peak": [1,2,3,4,5,6,7,8,9,10,11,12], 
+        "export_ratio": 0.3, "weather_sensitivity": 0.3, "market_demand": "medium"
+    },
+    "BRAHMI": {
+        "base_price_lkr": 400, "volatility": 0.30, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.5, "weather_sensitivity": 0.6, "market_demand": "medium"
+    },
+    "ASHWAGANDHA": {
+        "base_price_lkr": 1200, "volatility": 0.35, "seasonal_peak": [1,2,3], 
+        "export_ratio": 0.8, "weather_sensitivity": 0.5, "market_demand": "high"
+    },
+    "SARANA": {
+        "base_price_lkr": 350, "volatility": 0.28, "seasonal_peak": [6,7,8], 
+        "export_ratio": 0.2, "weather_sensitivity": 0.5, "market_demand": "low"
+    },
+    
+    "OYSTER_MUSHROOM": {
+        "base_price_lkr": 400, "volatility": 0.35, "seasonal_peak": [6,7,8,9], 
+        "export_ratio": 0.1, "weather_sensitivity": 0.9, "market_demand": "medium"
+    },
+    "SHIITAKE": {
+        "base_price_lkr": 800, "volatility": 0.40, "seasonal_peak": [6,7,8,9], 
+        "export_ratio": 0.3, "weather_sensitivity": 0.9, "market_demand": "high"
+    }
+}

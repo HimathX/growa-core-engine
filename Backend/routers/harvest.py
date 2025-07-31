@@ -22,7 +22,7 @@ router = APIRouter(tags=["Harvest Prediction"])
 # Load crop database
 def load_crop_database() -> Dict[str, Any]:
     try:
-        crop_db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs", "crop_database")
+        crop_db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs", "crop_database.json")
         with open(crop_db_path, 'r') as f:
             return json.load(f)
     except Exception as e:

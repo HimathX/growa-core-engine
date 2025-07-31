@@ -96,7 +96,8 @@ class District(str, Enum):
     RATNAPURA = "Ratnapura"
     TRINCOMALEE = "Trincomalee"
     VAVUNIYA = "Vavuniya"
-
+    
+    
 class SoilType(str, Enum):
     RED_EARTH = "Red_Earth"
     LATERITE = "Laterite"

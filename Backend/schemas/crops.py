@@ -5,15 +5,8 @@ from bson import ObjectId
 from .harvest import CropType, District
 from .tasks import TaskMilestone
 from enum import Enum
+from pydantic import validator
 
-def validate_object_id(v):
-    if isinstance(v, ObjectId):
-        return str(v)
-    if isinstance(v, str):
-        if ObjectId.is_valid(v):
-            return v
-        raise ValueError("Invalid ObjectId string")
-    raise ValueError("ObjectId must be a valid ObjectId or string")
 
 class CropCategory(str, Enum):
     # Fruit Crops
@@ -95,6 +88,7 @@ class CropCategory(str, Enum):
     # Spices
     CINNAMON = "CINNAMON"
 
+
 class CreateCropRequest(BaseModel):
     name: str = Field(..., min_length=2, max_length=100, description="Name of the field/crop area")
     crop_category: CropCategory = Field(..., description="Type of crop to plant")
@@ -104,6 +98,7 @@ class CreateCropRequest(BaseModel):
     location: District = Field(..., description="District where crop is located")
     area_size: float = Field(..., gt=0, description="Area size in square meters")
     user_id: str = Field(..., description="ID of the user creating the crop")
+
 
 class CropCreationResponse(BaseModel):
     success: bool
