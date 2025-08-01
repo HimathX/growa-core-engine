@@ -5,13 +5,14 @@ import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import Dashboard from "./components/Dashboard/Dashboard";
 import YieldProgressSection from "./components/Sections/YieldProgressSection.jsx";
-import PriceTrackerSection from "./components/Sections/PriceTrackerSection.jsx";
+import WeatherSection from "./components/Sections/WeatherSection.jsx";
 import PointOfInterestMapSection from "./components/Sections/PointOfInterestMapSection.jsx";
 import GrowBuddyAISection from "./components/Sections/GrowBuddyAISection.jsx";
 // Dummy sections for Market, Diagnose, Plan
 import MarketSection from "./components/Sections/MarketSection.jsx";
 import DiagnoseSection from "./components/Sections/DiagnoseSection.jsx";
 import PlanSection from "./components/Sections/PlanSection.jsx";
+import { WeatherProvider } from "./contexts/WeatherContext.jsx";
 import './i18n';
 
 function App() {
@@ -37,8 +38,8 @@ function App() {
         return React.createElement(YieldProgressSection, {
           onBack: () => handleNavClick("dashboard", "Home")
         });
-      case "priceTracker":
-        return React.createElement(PriceTrackerSection, {
+      case "weather":
+        return React.createElement(WeatherSection, {
           onBack: () => handleNavClick("dashboard", "Home")
         });
       case "poiMap":
@@ -59,7 +60,8 @@ function App() {
         });
       case "plan":
         return React.createElement(PlanSection, {
-          onBack: () => handleNavClick("dashboard", "Home")
+          onBack: () => handleNavClick("dashboard", "Home"),
+          onNavigate: handleCardClick
         });
       case "dashboard":
       default:
@@ -70,17 +72,21 @@ function App() {
   };
 
   return React.createElement(
-    "div",
-    { className: "app-container" },
-    React.createElement(Sidebar, {
-      onNavClick: handleNavClick,
-      activeItem: activeNavItem
-    }),
+    WeatherProvider,
+    null,
     React.createElement(
       "div",
-      { className: "main-content-area" },
-      React.createElement(Header),
-      renderView()
+      { className: "app-container" },
+      React.createElement(Sidebar, {
+        onNavClick: handleNavClick,
+        activeItem: activeNavItem
+      }),
+      React.createElement(
+        "div",
+        { className: "main-content-area" },
+        React.createElement(Header),
+        renderView()
+      )
     )
   );
 }

@@ -37,6 +37,12 @@ const Sidebar = ({ onNavClick, activeItem }) => {
                         <span className="icon">💰</span> {t("market")}
                     </li>
                     <li
+                        className={activeItem === "Weather" ? "active" : ""}
+                        onClick={() => handleItemClick("weather", "Weather")}
+                    >
+                        <span className="icon">🌤️</span> {t("weather")}
+                    </li>
+                    <li
                         className={activeItem === "Diagnose" ? "active" : ""}
                         onClick={() => handleItemClick("diagnose", "Diagnose")}
                     >
@@ -71,8 +77,8 @@ const Sidebar = ({ onNavClick, activeItem }) => {
                         minWidth: "120px"
                     }}
                 >
-                    <div style={{ padding: "8px 16px", cursor: "pointer" }} onClick={() => changeLanguage("en")}>English</div>
-                    <div style={{ padding: "8px 16px", cursor: "pointer" }} onClick={() => changeLanguage("si")}>සිංහල</div>
+                    <div style={{ padding: "8px 16px", cursor: "pointer" }} onClick={() => changeLanguage("en")}>{t("english")}</div>
+                    <div style={{ padding: "8px 16px", cursor: "pointer" }} onClick={() => changeLanguage("si")}>{t("sinhala")}</div>
                 </div>
             </div>
         </aside>
