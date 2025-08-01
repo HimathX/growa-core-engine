@@ -45,6 +45,71 @@ const Header = () => {
         setLanguageOpen(false);
     };
 
+    // Handle logout functionality
+    const handleLogout = () => {
+        // Close the menu first
+        setMenuOpen(false);
+
+        // Show confirmation dialog
+        const confirmLogout = window.confirm(
+            t('logoutConfirmation') || 'Are you sure you want to logout?'
+        );
+
+        if (!confirmLogout) {
+            return; // User cancelled logout
+        }
+
+        try {
+            // Clear ALL stored authentication data - matching what Signin.jsx checks for
+            localStorage.removeItem('access_token');  // This is what Signin.jsx checks for
+            localStorage.removeItem('user_id');       // This is what Signin.jsx checks for
+            localStorage.removeItem('crop_id');       // Also stored during login
+
+            // Clear any other auth-related items that might exist
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('crops');
+            localStorage.removeItem('tasks');
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('userData');
+
+            // Clear sessionStorage completely
+            sessionStorage.clear();
+
+            // Debug: Verify items are actually cleared
+            console.log('🧹 Logout - Clearing localStorage items...');
+            console.log('access_token after clear:', localStorage.getItem('access_token'));
+            console.log('user_id after clear:', localStorage.getItem('user_id'));
+            console.log('crop_id after clear:', localStorage.getItem('crop_id'));
+
+            // Clear any cookies if used for authentication
+            document.cookie.split(";").forEach((c) => {
+                document.cookie = c
+                    .replace(/^ +/, "")
+                    .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+            });
+
+            // Show success message
+            alert(t('logoutSuccess') || 'You have been logged out successfully');
+
+            // Redirect to login page or reload the page
+            // Option 1: Reload the page (if your app handles auth state on load)
+            window.location.reload();
+
+            // Option 2: Redirect to login page (uncomment if you have routing)
+            // window.location.href = '/login';
+
+            // Option 3: If using React Router, you would use navigate
+            // const navigate = useNavigate(); // Add this import and hook at the top
+            // navigate('/login');
+
+        } catch (error) {
+            console.error('Error during logout:', error);
+            alert(t('logoutError') || 'An error occurred during logout. Please try again.');
+        }
+    };
+
     // Close menus if clicked outside
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -192,7 +257,7 @@ const Header = () => {
                         <div style={{ padding: "0.75rem 1rem", cursor: "pointer" }} onClick={() => alert("Premium Account")}>
                             {t('premiumAccount')}
                         </div>
-                        <div style={{ padding: "0.75rem 1rem", cursor: "pointer", color: "#dc2626" }} onClick={() => alert("Logout")}>
+                        <div style={{ padding: "0.75rem 1rem", cursor: "pointer", color: "#dc2626" }} onClick={handleLogout}>
                             {t('logout')}
                         </div>
                     </div>

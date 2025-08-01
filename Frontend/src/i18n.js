@@ -14,6 +14,11 @@ i18n
             si: { translation: si }
         },
         fallbackLng: "en",
+        debug: false,
+        detection: {
+            order: ['localStorage', 'sessionStorage', 'navigator', 'htmlTag'],
+            caches: ['localStorage', 'sessionStorage']
+        },
         interpolation: {
             escapeValue: false
         }
