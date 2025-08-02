@@ -42,24 +42,56 @@ function PlanSection({ onBack, onNavigate }) {
     });
     const [results, setResults] = useState(null);
     const [currentCrops, setCurrentCrops] = useState([]);
+    const [userId, setUserId] = useState(null);
+
+    // Get user_id from localStorage and monitor for changes
+    useEffect(() => {
+        const getUserId = () => {
+            const storedUserId = localStorage.getItem('user_id');
+            console.log('🔍 PlanSection - Getting user_id from localStorage:', storedUserId);
+            setUserId(storedUserId);
+        };
+
+        // Get initial user ID
+        getUserId();
+
+        // Listen for storage changes (when user logs in/out in another tab or component)
+        const handleStorageChange = (e) => {
+            if (e.key === 'user_id') {
+                console.log('🔄 PlanSection - user_id changed in localStorage:', e.newValue);
+                setUserId(e.newValue);
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+
+        // Also listen for custom events when localStorage is updated in the same tab
+        const handleUserChange = () => {
+            getUserId();
+        };
+
+        window.addEventListener('userChanged', handleUserChange);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener('userChanged', handleUserChange);
+        };
+    }, []);
 
     // Fetch user's crops from backend
     const fetchUserCrops = async () => {
+        if (!userId) {
+            console.log('⚠️ PlanSection - No userId available, skipping crop fetch');
+            setCurrentCrops([]);
+            setIsLoadingCrops(false);
+            return;
+        }
+
         try {
             setIsLoadingCrops(true);
 
-            // Get user_id from localStorage
-            const userId = localStorage.getItem('user_id') || localStorage.getItem('userId') || localStorage.getItem('userID');
-
-            if (!userId) {
-                console.warn('⚠️ User ID not found in localStorage');
-                setIsLoadingCrops(false);
-                return;
-            }
-
-            console.log('🌱 Fetching user crops...');
+            console.log('🌱 Fetching user crops for userId:', userId);
             console.log('📡 API Endpoint: http://127.0.0.1:8081/crops/user/' + userId);
-            console.log('👤 User ID:', userId);
 
             const response = await fetch(`http://127.0.0.1:8081/crops/user/${userId}`, {
                 method: 'GET',
@@ -112,18 +144,26 @@ function PlanSection({ onBack, onNavigate }) {
             } else {
                 const errorData = await response.json();
                 console.error('❌ Failed to fetch crops:', errorData);
+                setCurrentCrops([]);
             }
         } catch (error) {
             console.error('🔥 Error fetching crops:', error);
+            setCurrentCrops([]);
         } finally {
             setIsLoadingCrops(false);
         }
     };
 
-    // Load user's crops when component mounts
+    // Fetch crops when userId changes
     useEffect(() => {
-        fetchUserCrops();
-    }, []);
+        if (userId) {
+            fetchUserCrops();
+        } else {
+            // Clear crops when no user is logged in
+            setCurrentCrops([]);
+            setIsLoadingCrops(false);
+        }
+    }, [userId]);
 
     const planOptions = [
         {
@@ -329,19 +369,16 @@ function PlanSection({ onBack, onNavigate }) {
             return;
         }
 
-        // Get user_id from localStorage
-        const userId = localStorage.getItem('user_id') || localStorage.getItem('userId') || localStorage.getItem('userID');
-
         if (!userId) {
             alert('❌ User ID not found. Please log in again.');
             return;
         }
 
         try {
-            console.log('🌱 Adding new crop...');
+            console.log('🌱 Adding new crop for user:', userId);
             console.log('📡 API Endpoint: http://127.0.0.1:8081/crops/');
 
-            // Convert numeric fields to integers and add user_id from localStorage
+            // Convert numeric fields to integers and add user_id from state
             const payload = {
                 ...cropData,
                 plant_count: parseInt(cropData.plant_count, 10),
@@ -390,6 +427,11 @@ function PlanSection({ onBack, onNavigate }) {
 
                     // Refresh crops list from backend instead of adding to local state
                     await fetchUserCrops();
+
+                    // Dispatch custom event to notify other components about crop changes
+                    window.dispatchEvent(new CustomEvent('cropsUpdated', {
+                        detail: { userId: userId, action: 'added', cropId: data.crop?.id }
+                    }));
 
                     // Reset form
                     setCropData({

@@ -11,16 +11,71 @@ const YieldProgressSection = ({ onBack = () => console.log("Back button clicked"
     const [taskData, setTaskData] = useState(null);
     const [activeTaskId, setActiveTaskId] = useState(null);
     const [selectedTaskForDetails, setSelectedTaskForDetails] = useState(null);
+    const [userId, setUserId] = useState(null);
 
-    // For now, using a placeholder user ID - this should come from authentication context
-    // Helper to get user_id from localStorage
-    const userId = localStorage.getItem('user_id');
+    // Get user_id from localStorage and monitor for changes
+    useEffect(() => {
+        const getUserId = () => {
+            const storedUserId = localStorage.getItem('user_id');
+            console.log('🔍 YieldProgressSection - Getting user_id from localStorage:', storedUserId);
+            setUserId(storedUserId);
+        };
+
+        // Get initial user ID
+        getUserId();
+
+        // Listen for storage changes (when user logs in/out in another tab or component)
+        const handleStorageChange = (e) => {
+            if (e.key === 'user_id') {
+                console.log('🔄 YieldProgressSection - user_id changed in localStorage:', e.newValue);
+                setUserId(e.newValue);
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+
+        // Also listen for custom events when localStorage is updated in the same tab
+        const handleUserChange = () => {
+            getUserId();
+        };
+
+        window.addEventListener('userChanged', handleUserChange);
+
+        // Listen for crop updates from other components
+        const handleCropsUpdate = (event) => {
+            console.log('🔄 YieldProgressSection - Crops updated:', event.detail);
+            // Only refresh if it's for the current user
+            if (event.detail.userId === localStorage.getItem('user_id')) {
+                // Trigger a refresh by temporarily clearing and then setting userId
+                const currentUserId = localStorage.getItem('user_id');
+                if (currentUserId) {
+                    setUserId(null);
+                    setTimeout(() => setUserId(currentUserId), 100);
+                }
+            }
+        };
+
+        window.addEventListener('cropsUpdated', handleCropsUpdate);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener('userChanged', handleUserChange);
+            window.removeEventListener('cropsUpdated', handleCropsUpdate);
+        };
+    }, []);
 
     // Fetch user crops from API
     useEffect(() => {
         const fetchCrops = async () => {
+            if (!userId) {
+                console.log('⚠️ No userId available, skipping crop fetch');
+                setLoading(false);
+                return;
+            }
+
             try {
                 setLoading(true);
+                console.log('🌱 Fetching crops for user:', userId);
                 const response = await fetch(`http://127.0.0.1:8081/crops/user/${userId}`);
 
                 if (!response.ok) {
@@ -28,30 +83,29 @@ const YieldProgressSection = ({ onBack = () => console.log("Back button clicked"
                 }
 
                 const data = await response.json();
+                console.log('📦 Received crops data:', data);
                 setCrops(data.crops || []);
 
                 // Set the first crop as selected if crops exist
                 if (data.crops && data.crops.length > 0) {
                     setSelectedCrop(data.crops[0]);
+                } else {
+                    setSelectedCrop(null);
                 }
                 setError(null);
             } catch (err) {
-                console.error('Error fetching crops:', err);
+                console.error('❌ Error fetching crops:', err);
                 setError(err.message);
-                // Fallback to dummy data
-                setCrops([
-                    { _id: "1", name: "Carrots", crop_type: "CARROT" },
-                    { _id: "2", name: "Chic Peas", crop_type: "CHICKPEA" },
-                    { _id: "3", name: "Tomatoes", crop_type: "TOMATO" }
-                ]);
-                setSelectedCrop({ _id: "1", name: "Carrots", crop_type: "CARROT" });
+                // Clear crops on error instead of using fallback data
+                setCrops([]);
+                setSelectedCrop(null);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchCrops();
-    }, [userId]);
+    }, [userId]); // Add userId as dependency
 
     // Fetch tasks for selected crop
     useEffect(() => {
@@ -325,6 +379,15 @@ const YieldProgressSection = ({ onBack = () => console.log("Back button clicked"
                             margin-top: 16px;
                             border: 1px solid #fecaca;
                         }
+
+                        .auth-warning {
+                            color: #d97706;
+                            background-color: #fef3c7;
+                            padding: 12px;
+                            border-radius: 6px;
+                            margin-top: 16px;
+                            border: 1px solid #fbbf24;
+                        }
                     `}
                 </style>
                 <div className="container">
@@ -336,14 +399,116 @@ const YieldProgressSection = ({ onBack = () => console.log("Back button clicked"
                             </button>
                             <h1 className="title">
                                 <span className="loading-spinner"></span>
-                                {t('loadingCrops')}
+                                {userId ? t('loadingCrops') : 'Please log in to view your crops'}
                             </h1>
                         </div>
-                        {error && (
-                            <div className="error-message">
-                                {t('errorOccurred')}: {error}. Using fallback data.
+                        {!userId && (
+                            <div className="auth-warning">
+                                No user authentication found. Please log in to access your crop data.
                             </div>
                         )}
+                        {error && (
+                            <div className="error-message">
+                                {t('errorOccurred')}: {error}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </>
+        );
+    }
+
+    // Show message if no user is logged in
+    if (!userId) {
+        return (
+            <>
+                <style>
+                    {`
+                        .container {
+                            min-height: 100vh;
+                            background-color: #f9fafb;
+                            padding: 20px;
+                        }
+                        
+                        .main-card {
+                            max-width: 1152px;
+                            margin: 0 auto;
+                            background-color: white;
+                            border-radius: 12px;
+                            padding: 24px;
+                            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                        }
+
+                        .header-left {
+                            display: flex;
+                            align-items: center;
+                            gap: 20px;
+                            flex-wrap: wrap;
+                        }
+                        
+                        .back-button {
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            color: #4b5563;
+                            background: none;
+                            border: none;
+                            padding: 8px 12px;
+                            border-radius: 6px;
+                            transition: background-color 0.15s;
+                            cursor: pointer;
+                        }
+                        
+                        .back-button:hover {
+                            background-color: #f3f4f6;
+                        }
+                        
+                        .back-button-icon {
+                            font-size: 18px;
+                        }
+                        
+                        .back-button-text {
+                            font-size: 16px;
+                        }
+                        
+                        .title {
+                            font-size: 24px;
+                            font-weight: 600;
+                            color: #1f2937;
+                            margin: 0;
+                        }
+                        
+                        .auth-required {
+                            text-align: center;
+                            padding: 60px 20px;
+                            color: #6b7280;
+                        }
+                        
+                        .auth-required h3 {
+                            font-size: 18px;
+                            margin-bottom: 8px;
+                            color: #374151;
+                        }
+                        
+                        .auth-required p {
+                            font-size: 14px;
+                            margin: 0;
+                        }
+                    `}
+                </style>
+                <div className="container">
+                    <div className="main-card">
+                        <div className="header-left">
+                            <button onClick={onBack} className="back-button">
+                                <span className="back-button-icon">←</span>
+                                <span className="back-button-text">{t('yieldProgress')}</span>
+                            </button>
+                            <h1 className="title">Authentication Required</h1>
+                        </div>
+                        <div className="auth-required">
+                            <h3>Please Log In</h3>
+                            <p>You need to be logged in to view your crop progress and tasks.</p>
+                        </div>
                     </div>
                 </div>
             </>
@@ -983,33 +1148,58 @@ const YieldProgressSection = ({ onBack = () => console.log("Back button clicked"
                             </button>
 
                             <h1 className="title">
-                                {taskData ?
-                                    `${taskData.completed_tasks}/${taskData.total_tasks} ${t('tasksCompleted')}` :
-                                    t('goingGreat')
+                                {!userId ?
+                                    'Please log in to view your crops' :
+                                    crops.length === 0 ?
+                                        'No crops found - Create some crops first!' :
+                                        taskData ?
+                                            `${taskData.completed_tasks}/${taskData.total_tasks} ${t('tasksCompleted')}` :
+                                            t('goingGreat')
                                 }
                             </h1>
 
-                            <div className="crop-selector">
-                                <span className="crop-emoji">🌱</span>
-                                <select
-                                    value={selectedCrop?._id || ''}
-                                    onChange={handleCropChange}
-                                    className="crop-select"
-                                    disabled={loading}
-                                >
-                                    {crops.map(crop => (
-                                        <option key={crop._id} value={crop._id}>
-                                            {crop.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
+                            {crops.length > 0 && (
+                                <div className="crop-selector">
+                                    <span className="crop-emoji">🌱</span>
+                                    <select
+                                        value={selectedCrop?._id || ''}
+                                        onChange={handleCropChange}
+                                        className="crop-select"
+                                        disabled={loading}
+                                    >
+                                        {crops.map(crop => (
+                                            <option key={crop._id} value={crop._id}>
+                                                {crop.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
                         </div>
                     </div>
 
                     {/* Timeline */}
                     <div className="timeline-container">
-                        {tasks.length === 0 ? (
+                        {crops.length === 0 ? (
+                            <div className="no-tasks">
+                                <h3>No Crops Found</h3>
+                                <p>You haven't created any crops yet. Go to the Plan section to add your first crop!</p>
+                                <button
+                                    onClick={() => window.history.back()}
+                                    style={{
+                                        marginTop: '16px',
+                                        padding: '8px 16px',
+                                        backgroundColor: '#10b981',
+                                        color: 'white',
+                                        border: 'none',
+                                        borderRadius: '6px',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    Go to Plan Section
+                                </button>
+                            </div>
+                        ) : tasks.length === 0 ? (
                             <div className="no-tasks">
                                 <h3>No tasks found for this crop</h3>
                                 <p>Tasks will appear here when available for the selected crop.</p>

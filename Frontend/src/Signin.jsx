@@ -92,6 +92,13 @@ const SignIn = () => {
                                         localStorage.setItem('crop_id', data.crop_id);
                                 }
 
+                                // Dispatch custom event to notify other components about user change
+                                window.dispatchEvent(new CustomEvent('userChanged', {
+                                        detail: { userId: data.user_id, action: 'login' }
+                                }));
+
+                                console.log('🎉 User logged in successfully:', data.user_id);
+
                                 // Clear form
                                 setEmail('');
                                 setPassword('');

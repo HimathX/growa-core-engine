@@ -12,7 +12,7 @@ const YieldProgressCard = ({ onClick }) => {
     const [taskData, setTaskData] = useState(null);
 
     // For now, using a placeholder user ID - this should come from authentication context
-    const userId = "688c5b21602eb74a8f86f9bc";
+    const userId = localStorage.getItem('user_id');
 
     // Fetch user crops from API
     useEffect(() => {

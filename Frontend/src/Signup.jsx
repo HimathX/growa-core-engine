@@ -7,6 +7,7 @@ const Signup = ({ onBackToSignin }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState('');
@@ -15,6 +16,7 @@ const Signup = ({ onBackToSignin }) => {
     const handleNameChange = (e) => setName(e.target.value);
     const handleEmailChange = (e) => setEmail(e.target.value);
     const handleUsernameChange = (e) => setUsername(e.target.value);
+    const handlePhoneNumberChange = (e) => setPhoneNumber(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
 
     // Validation functions
@@ -28,6 +30,13 @@ const Signup = ({ onBackToSignin }) => {
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
+    };
+
+    const validatePhoneNumber = (phone) => {
+        // Remove all non-digit characters
+        const cleanPhone = phone.replace(/\D/g, '');
+        // Check if it's a valid length (10-15 digits) and starts with appropriate digits
+        return cleanPhone.length >= 10 && cleanPhone.length <= 15;
     };
 
     const showMessage = (text, type) => {
@@ -63,6 +72,14 @@ const Signup = ({ onBackToSignin }) => {
             showMessage('Username must be at least 3 characters long', 'error');
             return;
         }
+        if (!phoneNumber.trim()) {
+            showMessage('Please enter your phone number', 'error');
+            return;
+        }
+        if (!validatePhoneNumber(phoneNumber)) {
+            showMessage('Please enter a valid phone number (10-15 digits)', 'error');
+            return;
+        }
         if (!validatePassword(password)) {
             showMessage('Password must include an uppercase letter, a number, and be at least 6 characters long', 'error');
             return;
@@ -79,6 +96,7 @@ const Signup = ({ onBackToSignin }) => {
                 full_name: name.trim(),
                 email: email.trim().toLowerCase(),
                 username: username.trim().toLowerCase(),
+                phone_number: phoneNumber.trim(),
                 password: password
             };
 
@@ -107,6 +125,7 @@ const Signup = ({ onBackToSignin }) => {
                 setName('');
                 setEmail('');
                 setUsername('');
+                setPhoneNumber('');
                 setPassword('');
 
                 // Redirect to signin after 2 seconds
@@ -197,6 +216,16 @@ const Signup = ({ onBackToSignin }) => {
                             disabled={isLoading}
                             required
                             minLength="3"
+                        />
+
+                        <label>Phone Number</label>
+                        <input
+                            type="tel"
+                            placeholder="+94 71 234 5678"
+                            value={phoneNumber}
+                            onChange={handlePhoneNumberChange}
+                            disabled={isLoading}
+                            required
                         />
 
                         <label>Password</label>

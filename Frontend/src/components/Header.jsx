@@ -74,6 +74,11 @@ const Header = () => {
             localStorage.removeItem('userToken');
             localStorage.removeItem('userData');
 
+            // Dispatch custom event to notify other components about user logout
+            window.dispatchEvent(new CustomEvent('userChanged', {
+                detail: { userId: null, action: 'logout' }
+            }));
+
             // Clear sessionStorage completely
             sessionStorage.clear();
 
