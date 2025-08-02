@@ -26,7 +26,7 @@ function WeatherSection({ onBack }) {
                 }
 
                 const data = await response.json();
-
+                console.log('Weather data:', data);
                 // Transform API data to match component structure
                 const transformedData = {
                     current: {
