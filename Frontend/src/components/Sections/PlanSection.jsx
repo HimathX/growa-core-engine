@@ -259,23 +259,125 @@ function PlanSection({ onBack, onNavigate }) {
 
     // Price predictor specific options
     const cropTypes = [
-        'Vanilla', 'Saffron', 'Black Pepper', 'Cardamom', 'Dragon Fruit', 'Avocado', 'Strawberry', 'Passion Fruit',
-        'Turmeric', 'Ginger', 'Chili', 'Aloe Vera', 'Pomegranate', 'Lime', 'Lemon', 'Tomato', 'Capsicum', 'Eggplant',
-        'Cucumber', 'Green Beans', 'Okra', 'Papaya', 'Banana', 'Curry Leaves', 'Basil', 'Mint', 'Lemongrass',
-        'Coriander', 'Parsley', 'Guava', 'Cabbage', 'Cauliflower', 'Carrot', 'Onion', 'Beets', 'Spinach', 'Lettuce',
-        'Kale', 'Gotukola', 'Mukunuwenna', 'Kankun', 'Sarana', 'Radish', 'Mango', 'Jackfruit', 'Rambutan',
-        'Mangosteen', 'Wood Apple', 'Tamarind', 'Moringa', 'Neem', 'Brahmi', 'Ashwagandha', 'Cherry Tomato',
-        'Baby Corn', 'Broccoli', 'Zucchini', 'Bell Pepper'
+        { value: 'Vanilla', label: 'Vanilla' },
+        { value: 'Saffron', label: 'Saffron' },
+        { value: 'Black Pepper', label: 'Black Pepper' },
+        { value: 'Cardamom', label: 'Cardamom' },
+        { value: 'Dragon Fruit', label: 'Dragon Fruit' },
+        { value: 'Avocado', label: 'Avocado' },
+        { value: 'Strawberry', label: 'Strawberry' },
+        { value: 'Passion Fruit', label: 'Passion Fruit' },
+        { value: 'Turmeric', label: 'Turmeric' },
+        { value: 'Ginger', label: 'Ginger' },
+        { value: 'Chili', label: 'Chili' },
+        { value: 'Aloe Vera', label: 'Aloe Vera' },
+        { value: 'Pomegranate', label: 'Pomegranate' },
+        { value: 'Lime', label: 'Lime' },
+        { value: 'Lemon', label: 'Lemon' },
+        { value: 'Tomato', label: 'Tomato' },
+        { value: 'Capsicum', label: 'Capsicum' },
+        { value: 'Eggplant', label: 'Eggplant' },
+        { value: 'Cucumber', label: 'Cucumber' },
+        { value: 'Green Beans', label: 'Green Beans' },
+        { value: 'Okra', label: 'Okra' },
+        { value: 'Papaya', label: 'Papaya' },
+        { value: 'Banana', label: 'Banana' },
+        { value: 'Curry Leaves', label: 'Curry Leaves' },
+        { value: 'Basil', label: 'Basil' },
+        { value: 'Mint', label: 'Mint' },
+        { value: 'Lemongrass', label: 'Lemongrass' },
+        { value: 'Coriander', label: 'Coriander' },
+        { value: 'Parsley', label: 'Parsley' },
+        { value: 'Guava', label: 'Guava' },
+        { value: 'Cabbage', label: 'Cabbage' },
+        { value: 'Cauliflower', label: 'Cauliflower' },
+        { value: 'Carrot', label: 'Carrot' },
+        { value: 'Onion', label: 'Onion' },
+        { value: 'Beets', label: 'Beets' },
+        { value: 'Spinach', label: 'Spinach' },
+        { value: 'Lettuce', label: 'Lettuce' },
+        { value: 'Kale', label: 'Kale' },
+        { value: 'Gotukola', label: 'Gotukola' },
+        { value: 'Mukunuwenna', label: 'Mukunuwenna' },
+        { value: 'Kankun', label: 'Kankun' },
+        { value: 'Sarana', label: 'Sarana' },
+        { value: 'Radish', label: 'Radish' },
+        { value: 'Mango', label: 'Mango' },
+        { value: 'Jackfruit', label: 'Jackfruit' },
+        { value: 'Rambutan', label: 'Rambutan' },
+        { value: 'Mangosteen', label: 'Mangosteen' },
+        { value: 'Wood Apple', label: 'Wood Apple' },
+        { value: 'Tamarind', label: 'Tamarind' },
+        { value: 'Moringa', label: 'Moringa' },
+        { value: 'Neem', label: 'Neem' },
+        { value: 'Brahmi', label: 'Brahmi' },
+        { value: 'Ashwagandha', label: 'Ashwagandha' },
+        { value: 'Cherry Tomato', label: 'Cherry Tomato' },
+        { value: 'Baby Corn', label: 'Baby Corn' },
+        { value: 'Broccoli', label: 'Broccoli' },
+        { value: 'Zucchini', label: 'Zucchini' },
+        { value: 'Bell Pepper', label: 'Bell Pepper' }
     ];
 
     const cropCategories = [
-        'VANILLA', 'SAFFRON', 'BLACK_PEPPER', 'CARDAMOM', 'DRAGON_FRUIT', 'AVOCADO', 'STRAWBERRY', 'PASSION_FRUIT',
-        'TURMERIC', 'GINGER', 'CHILI', 'ALOE_VERA', 'POMEGRANATE', 'LIME', 'LEMON', 'TOMATO', 'CAPSICUM', 'EGGPLANT',
-        'CUCUMBER', 'GREEN_BEANS', 'OKRA', 'PAPAYA', 'BANANA', 'CURRY_LEAVES', 'BASIL', 'MINT', 'LEMONGRASS',
-        'CORIANDER', 'PARSLEY', 'GUAVA', 'CABBAGE', 'CAULIFLOWER', 'CARROT', 'ONION', 'BEETS', 'SPINACH', 'LETTUCE',
-        'KALE', 'GOTUKOLA', 'MUKUNUWENNA', 'KANKUN', 'SARANA', 'RADISH', 'MANGO', 'JACKFRUIT', 'RAMBUTAN',
-        'MANGOSTEEN', 'WOOD_APPLE', 'TAMARIND', 'MORINGA', 'NEEM', 'BRAHMI', 'ASHWAGANDHA', 'CHERRY_TOMATO',
-        'BABY_CORN', 'BROCCOLI', 'ZUCCHINI', 'BELL_PEPPER'
+        { value: 'VANILLA', label: 'Vanilla' },
+        { value: 'SAFFRON', label: 'Saffron' },
+        { value: 'BLACK_PEPPER', label: 'Black Pepper' },
+        { value: 'CARDAMOM', label: 'Cardamom' },
+        { value: 'DRAGON_FRUIT', label: 'Dragon Fruit' },
+        { value: 'AVOCADO', label: 'Avocado' },
+        { value: 'STRAWBERRY', label: 'Strawberry' },
+        { value: 'PASSION_FRUIT', label: 'Passion Fruit' },
+        { value: 'TURMERIC', label: 'Turmeric' },
+        { value: 'GINGER', label: 'Ginger' },
+        { value: 'CHILI', label: 'Chili' },
+        { value: 'ALOE_VERA', label: 'Aloe Vera' },
+        { value: 'POMEGRANATE', label: 'Pomegranate' },
+        { value: 'LIME', label: 'Lime' },
+        { value: 'LEMON', label: 'Lemon' },
+        { value: 'TOMATO', label: 'Tomato' },
+        { value: 'CAPSICUM', label: 'Capsicum' },
+        { value: 'EGGPLANT', label: 'Eggplant' },
+        { value: 'CUCUMBER', label: 'Cucumber' },
+        { value: 'GREEN_BEANS', label: 'Green Beans' },
+        { value: 'OKRA', label: 'Okra' },
+        { value: 'PAPAYA', label: 'Papaya' },
+        { value: 'BANANA', label: 'Banana' },
+        { value: 'CURRY_LEAVES', label: 'Curry Leaves' },
+        { value: 'BASIL', label: 'Basil' },
+        { value: 'MINT', label: 'Mint' },
+        { value: 'LEMONGRASS', label: 'Lemongrass' },
+        { value: 'CORIANDER', label: 'Coriander' },
+        { value: 'PARSLEY', label: 'Parsley' },
+        { value: 'GUAVA', label: 'Guava' },
+        { value: 'CABBAGE', label: 'Cabbage' },
+        { value: 'CAULIFLOWER', label: 'Cauliflower' },
+        { value: 'CARROT', label: 'Carrot' },
+        { value: 'ONION', label: 'Onion' },
+        { value: 'BEETS', label: 'Beets' },
+        { value: 'SPINACH', label: 'Spinach' },
+        { value: 'LETTUCE', label: 'Lettuce' },
+        { value: 'KALE', label: 'Kale' },
+        { value: 'GOTUKOLA', label: 'Gotukola' },
+        { value: 'MUKUNUWENNA', label: 'Mukunuwenna' },
+        { value: 'KANKUN', label: 'Kankun' },
+        { value: 'SARANA', label: 'Sarana' },
+        { value: 'RADISH', label: 'Radish' },
+        { value: 'MANGO', label: 'Mango' },
+        { value: 'JACKFRUIT', label: 'Jackfruit' },
+        { value: 'RAMBUTAN', label: 'Rambutan' },
+        { value: 'MANGOSTEEN', label: 'Mangosteen' },
+        { value: 'WOOD_APPLE', label: 'Wood Apple' },
+        { value: 'TAMARIND', label: 'Tamarind' },
+        { value: 'MORINGA', label: 'Moringa' },
+        { value: 'NEEM', label: 'Neem' },
+        { value: 'BRAHMI', label: 'Brahmi' },
+        { value: 'ASHWAGANDHA', label: 'Ashwagandha' },
+        { value: 'CHERRY_TOMATO', label: 'Cherry Tomato' },
+        { value: 'BABY_CORN', label: 'Baby Corn' },
+        { value: 'BROCCOLI', label: 'Broccoli' },
+        { value: 'ZUCCHINI', label: 'Zucchini' },
+        { value: 'BELL_PEPPER', label: 'Bell Pepper' }
     ];
 
     const areaUnits = [
@@ -815,13 +917,13 @@ function PlanSection({ onBack, onNavigate }) {
                                                     >
                                                         <option value="">Select crop type</option>
                                                         {cropTypes.map(crop => (
-                                                            <option key={crop} value={crop}>{crop}</option>
+                                                            <option key={crop.value} value={crop.value}>{crop.label}</option>
                                                         ))}
                                                     </select>
                                                 </div>
 
                                                 <div className="input-group">
-                                                    <label htmlFor="farm_area">Farm Area:</label>
+                                                    <label htmlFor="farm_area">Farm Area in square Kilometers:</label>
                                                     <input
                                                         type="number"
                                                         id="farm_area"
@@ -830,20 +932,6 @@ function PlanSection({ onBack, onNavigate }) {
                                                         placeholder="Enter farm area"
                                                         required
                                                     />
-                                                </div>
-
-                                                <div className="input-group">
-                                                    <label htmlFor="area_unit">Area Unit:</label>
-                                                    <select
-                                                        id="area_unit"
-                                                        value={priceFormData.area_unit}
-                                                        onChange={(e) => handlePriceInputChange('area_unit', e.target.value)}
-                                                        required
-                                                    >
-                                                        {areaUnits.map(unit => (
-                                                            <option key={unit.value} value={unit.value}>{unit.label}</option>
-                                                        ))}
-                                                    </select>
                                                 </div>
 
                                                 <div className="input-group">
@@ -1075,7 +1163,7 @@ function PlanSection({ onBack, onNavigate }) {
                                                     </div>
                                                     <div className="result-card">
                                                         <label>Expected Yield:</label>
-                                                        <span>{results.harvestDetails.expected_yield_kg} kg</span>
+                                                        <span>{results.harvestDetails.expected_yield_kg}</span>
                                                     </div>
                                                     <div className="result-card">
                                                         <label>Yield per m²:</label>
@@ -1091,7 +1179,7 @@ function PlanSection({ onBack, onNavigate }) {
                                                     </div>
                                                     <div className="result-card">
                                                         <label>Estimated Revenue:</label>
-                                                        <span>Rs.{results.harvestDetails.estimated_revenue_lkr}</span>
+                                                        <span>{results.harvestDetails.estimated_revenue_lkr}</span>
                                                     </div>
                                                     <div className="result-card">
                                                         <label>Season Type:</label>
@@ -1304,7 +1392,7 @@ function PlanSection({ onBack, onNavigate }) {
                                         >
                                             <option value="">Select crop category</option>
                                             {cropCategories.map(category => (
-                                                <option key={category} value={category}>{category.replace(/_/g, ' ')}</option>
+                                                <option key={category.value} value={category.value}>{category.label}</option>
                                             ))}
                                         </select>
                                     </div>
