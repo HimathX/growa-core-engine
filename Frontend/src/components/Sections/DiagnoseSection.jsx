@@ -1,69 +1,624 @@
 import React, { useState, useRef } from 'react';
+import { getApiBaseUrl, API_CONFIG } from '../../config/api';
 
-// Placeholder images (replace with actual URLs or local images if needed)
-const BUTTERFLY_IMAGE_URL = "https://i.imgur.com/gL4YQLK.png"; // Simple butterfly PNG
-const BEETLE_PLACEHOLDER_URL = "https://i.imgur.com/5v1zW7g.png"; // Placeholder bug
-const MUSHROOM_PLACEHOLDER_URL = "https://i.imgur.com/kO7QeI7.png"; // Placeholder mushroom
-const CATERPILLAR_PLACEHOLDER_URL = "https://i.imgur.com/tD19xG5.png"; // Placeholder caterpillar
+// Add CSS styles for loading and error states
+const styles = `
+.analyzing-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #4CAF50;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.analyzing-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0.5rem 0;
+}
+
+.analyzing-subtext {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+}
+
+.error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.error-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #e74c3c;
+    margin: 0.5rem 0;
+}
+
+.error-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0.5rem 0 1rem 0;
+}
+
+.retry-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.retry-button:hover {
+    background-color: #45a049;
+}
+
+.detection-type {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+    margin: -0.5rem 0 1rem 0;
+}
+
+.model-used {
+    font-size: 0.8rem;
+    color: #4CAF50;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    padding: 0.25rem 0.5rem;
+    background-color: #f0f8f0;
+    border-radius: 4px;
+    border-left: 3px solid #4CAF50;
+}
+
+.alternative-results {
+    margin: 1rem 0;
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.alternative-results h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.alternative-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.25rem 0;
+    font-size: 0.85rem;
+}
+
+.alt-type {
+    font-weight: 600;
+    color: #2196F3;
+}
+
+.alt-name {
+    color: #333;
+}
+
+.alt-confidence {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.upload-box.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.upload-box.drag-over {
+    border-color: #4CAF50;
+    background-color: #f0f8f0;
+    transform: scale(1.02);
+}
+
+.upload-button-diagnose:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.from-the-web-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.from-the-web-loading .loading-spinner {
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+}
+
+.from-the-web-loading p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+}
+
+.detection-mode-selector {
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.detection-mode-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 0.75rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detection-mode-options {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.detection-mode-option {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.75rem;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.detection-mode-option:hover {
+    border-color: #4CAF50;
+    background-color: #f0f8f0;
+}
+
+.detection-mode-option.selected {
+    border-color: #4CAF50;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.detection-mode-option.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #f5f5f5;
+}
+
+.detection-mode-option.disabled:hover {
+    border-color: #e9ecef;
+    background-color: #f5f5f5;
+}
+
+.detection-mode-label {
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+}
+
+.detection-mode-description {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin: 0;
+}
+
+.detection-icon {
+    font-size: 1.2rem;
+    margin-right: 0.25rem;
+}
+`;
+
+
+if (typeof document !== 'undefined') {
+    const styleElement = document.createElement('style');
+    styleElement.textContent = styles;
+    if (!document.head.querySelector('style[data-diagnose-styles]')) {
+        styleElement.setAttribute('data-diagnose-styles', 'true');
+        document.head.appendChild(styleElement);
+    }
+}
 
 const DiagnoseSection = ({ onBack }) => {
-    // React state variables
+
     const [uploadedImage, setUploadedImage] = useState(null);
     const [analysisResult, setAnalysisResult] = useState(null);
     const [fromTheWeb, setFromTheWeb] = useState(null);
+    const [isAnalyzing, setIsAnalyzing] = useState(false);
+    const [error, setError] = useState(null);
+    const [isDragOver, setIsDragOver] = useState(false);
+    const [detectionMode, setDetectionMode] = useState('auto');
     const fileInputRef = useRef(null);
+
+    const callPestDetectionAPI = async (file) => {
+        console.log("Calling Pest Detection API with file:", file.name, file.type, file.size);
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await fetch(`${getApiBaseUrl()}${API_CONFIG.ENDPOINTS.PEST_DETECTION}`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        console.log("Pest API response status:", response.status, response.statusText);
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("Pest API error response:", errorText);
+            throw new Error(`Pest detection failed (${response.status}): ${response.statusText}. ${errorText}`);
+        }
+
+        const result = await response.json();
+        console.log("Pest API result:", result);
+        return result;
+    };
+
+    const callInsectDetectionAPI = async (file) => {
+        console.log("Calling Insect Detection API with file:", file.name, file.type, file.size);
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await fetch(`${getApiBaseUrl()}${API_CONFIG.ENDPOINTS.INSECT_DETECTION}`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        console.log("Insect API response status:", response.status, response.statusText);
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("Insect API error response:", errorText);
+            throw new Error(`Insect detection failed (${response.status}): ${response.statusText}. ${errorText}`);
+        }
+
+        const result = await response.json();
+        console.log("Insect API result:", result);
+        return result;
+    };
+
+    const analyzeImage = async (file, selectedMode = null) => {
+        setIsAnalyzing(true);
+        setError(null);
+
+        const mode = selectedMode || detectionMode;
+
+        try {
+            console.log(`Analyzing image "${file.name}" using detection mode: ${mode}`);
+
+            let finalResult = null;
+            let resultType = null;
+            let pestConfidence = 0;
+            let insectConfidence = 0;
+            let pestResult = null;
+            let insectResult = null;
+
+            if (mode === 'pest') {
+                // Only call pest detection API
+                console.log('Running pest detection only...');
+                try {
+                    const result = await callPestDetectionAPI(file);
+                    pestResult = { status: 'fulfilled', value: result };
+                    if (result.status === 'success' || result.plant_disease || result.confidence) {
+                        pestConfidence = result.confidence || 0;
+                        finalResult = result;
+                        resultType = 'pest';
+                        console.log('Pest detection completed with confidence:', pestConfidence);
+                    } else {
+                        // Even if status isn't "success", try to use the result if it has content
+                        pestConfidence = result.confidence || 0;
+                        finalResult = result;
+                        resultType = 'pest';
+                        console.log('Pest detection completed (status unclear) with confidence:', pestConfidence);
+                    }
+                } catch (error) {
+                    console.error('Pest detection error:', error);
+                    throw new Error(`Pest detection failed: ${error.message}`);
+                }
+            } else if (mode === 'insect') {
+                // Only call insect detection API
+                console.log('Running insect detection only...');
+                try {
+                    const result = await callInsectDetectionAPI(file);
+                    insectResult = { status: 'fulfilled', value: result };
+                    const insectData = result;
+                    if (insectData.predictions && insectData.predictions.length > 0) {
+                        insectConfidence = insectData.predictions[0].confidence || 0;
+                    } else if (insectData.confidence) {
+                        insectConfidence = insectData.confidence;
+                    }
+                    finalResult = result;
+                    resultType = 'insect';
+                    console.log('Insect detection completed with confidence:', insectConfidence);
+                } catch (error) {
+                    console.error('Insect detection error:', error);
+                    throw new Error(`Insect detection failed: ${error.message}`);
+                }
+            } else {
+                // Auto mode - call both APIs in parallel and choose best result
+                console.log('Running auto detection (both models)...');
+                const [pestRes, insectRes] = await Promise.allSettled([
+                    callPestDetectionAPI(file),
+                    callInsectDetectionAPI(file)
+                ]);
+
+                pestResult = pestRes;
+                insectResult = insectRes;
+
+                // Extract confidence scores
+                if (pestRes.status === 'fulfilled' && (pestRes.value.status === 'success' || pestRes.value.plant_disease || pestRes.value.confidence)) {
+                    pestConfidence = pestRes.value.confidence || 0;
+                    console.log('Pest detection successful with confidence:', pestConfidence);
+                } else {
+                    console.log('Pest detection failed:', pestRes.reason?.message || 'Unknown error');
+                }
+
+                if (insectRes.status === 'fulfilled') {
+                    // Handle different insect API response formats
+                    const insectData = insectRes.value;
+                    if (insectData.predictions && insectData.predictions.length > 0) {
+                        insectConfidence = insectData.predictions[0].confidence || 0;
+                    } else if (insectData.confidence) {
+                        insectConfidence = insectData.confidence;
+                    }
+                    console.log('Insect detection successful with confidence:', insectConfidence);
+                } else {
+                    console.log('Insect detection failed:', insectRes.reason?.message || 'Unknown error');
+                }
+
+                // Choose the result with higher confidence (no minimum threshold - always show best result)
+
+                if (pestRes.status === 'fulfilled' && (pestRes.value.status === 'success' || pestRes.value.plant_disease || pestRes.value.confidence) &&
+                    insectRes.status === 'fulfilled') {
+                    // Both models succeeded, choose the one with higher confidence
+                    if (pestConfidence >= insectConfidence) {
+                        finalResult = pestRes.value;
+                        resultType = 'pest';
+                        console.log(`Choosing pest detection (confidence: ${pestConfidence} vs ${insectConfidence})`);
+                    } else {
+                        finalResult = insectRes.value;
+                        resultType = 'insect';
+                        console.log(`Choosing insect detection (confidence: ${insectConfidence} vs ${pestConfidence})`);
+                    }
+                } else if (pestRes.status === 'fulfilled' && (pestRes.value.status === 'success' || pestRes.value.plant_disease || pestRes.value.confidence)) {
+                    // Only pest model succeeded
+                    finalResult = pestRes.value;
+                    resultType = 'pest';
+                    console.log(`Using pest detection (confidence: ${pestConfidence})`);
+                } else if (insectRes.status === 'fulfilled') {
+                    // Only insect model succeeded
+                    finalResult = insectRes.value;
+                    resultType = 'insect';
+                    console.log(`Using insect detection (confidence: ${insectConfidence})`);
+                } else {
+                    throw new Error('Both detection APIs failed');
+                }
+            }
+
+            // Format the result for display
+            const formattedResult = formatDetectionResult(
+                finalResult,
+                resultType,
+                { pestConfidence, insectConfidence, pestResult, insectResult, detectionMode: mode }
+            );
+            setAnalysisResult(formattedResult);
+
+            // Set placeholder web information (this could be enhanced with real web scraping)
+            setFromTheWeb(generateWebInfo(formattedResult.ailmentName));
+
+        } catch (error) {
+            console.error('Analysis error:', error);
+            setError(error.message);
+            setAnalysisResult(null);
+            setFromTheWeb(null);
+        } finally {
+            setIsAnalyzing(false);
+        }
+    };
+
+    const formatDetectionResult = (result, type, additionalInfo = {}) => {
+        const { pestConfidence = 0, insectConfidence = 0, pestResult, insectResult, detectionMode = 'auto' } = additionalInfo;
+
+        let alternativeResults = [];
+
+        // Only show alternative results in auto mode when we actually ran both models
+        if (detectionMode === 'auto') {
+            if (type === 'pest' && insectConfidence > 0.1) { // Lowered threshold to show more alternatives
+                const insectData = insectResult?.value;
+                if (insectData?.predictions?.[0]) {
+                    alternativeResults.push({
+                        type: 'Insect',
+                        name: insectData.predictions[0].class || 'Detected Insect Species',
+                        confidence: (insectData.predictions[0].confidence * 100).toFixed(0) + '%'
+                    });
+                }
+            } else if (type === 'insect' && pestConfidence > 0.1) { // Lowered threshold to show more alternatives
+                const pestData = pestResult?.value;
+                if (pestData?.plant_disease) {
+                    alternativeResults.push({
+                        type: 'Disease/Pest',
+                        name: pestData.plant_disease,
+                        confidence: (pestData.confidence * 100).toFixed(0) + '%'
+                    });
+                }
+            }
+        }
+
+        // Determine model used text based on detection mode
+        let modelUsedText = '';
+        if (detectionMode === 'auto') {
+            modelUsedText = `Auto Detection → ${type === 'pest' ? 'Disease/Pest' : 'Insect'} Model (${(result.confidence || result.predictions?.[0]?.confidence || 0) * 100}% confidence)`;
+        } else if (detectionMode === 'pest') {
+            modelUsedText = `Disease/Pest Model (Manual Selection, ${(result.confidence * 100).toFixed(0)}% confidence)`;
+        } else if (detectionMode === 'insect') {
+            const confidence = result.predictions?.[0]?.confidence || result.confidence || 0;
+            modelUsedText = `Insect Model (Manual Selection, ${(confidence * 100).toFixed(0)}% confidence)`;
+        }
+
+        if (type === 'pest') {
+            return {
+                confidence: `${(result.confidence * 100).toFixed(0)}%`,
+                ailmentName: result.plant_disease || 'Plant Health Issue Detected',
+                description: result.remedy || 'Plant health issue detected. Consider consulting with agricultural experts for specific treatment recommendations.',
+                suggestions: [
+                    "How to identify this disease?",
+                    "What causes this condition?",
+                    "Prevention methods",
+                    "Treatment options",
+                    "When to seek expert help",
+                ],
+                detectionType: 'Disease/Pest',
+                alternativeResults,
+                modelUsed: modelUsedText
+            };
+        } else {
+            // For insect detection
+            const topPrediction = result.predictions?.[0] || result;
+            return {
+                confidence: `${(topPrediction.confidence * 100).toFixed(0)}%`,
+                ailmentName: topPrediction.class || topPrediction.insect_class || 'Insect Species Detected',
+                description: `Insect species detected with ${(topPrediction.confidence * 100).toFixed(0)}% confidence. This insect may affect your crops and should be monitored.`,
+                suggestions: [
+                    "Is this insect harmful to crops?",
+                    "How to control this insect?",
+                    "Natural predators and control",
+                    "Chemical control methods",
+                    "Integrated pest management",
+                ],
+                detectionType: 'Insect',
+                alternativeResults,
+                modelUsed: modelUsedText
+            };
+        }
+    };
+
+    const generateWebInfo = (ailmentName) => {
+
+        return {
+            images: [
+                { id: "example1", src: "https://via.placeholder.com/150x100?text=Example+1", alt: "Example 1" },
+                { id: "example2", src: "https://via.placeholder.com/150x100?text=Example+2", alt: "Example 2" },
+                { id: "example3", src: "https://via.placeholder.com/150x100?text=Example+3", alt: "Example 3" },
+            ],
+            title: `${ailmentName} - Additional Information`,
+            fullText: `Learn more about ${ailmentName} and effective management strategies. Consult with agricultural experts for detailed treatment plans and prevention methods.`,
+        };
+    };
+
+    const processFile = (file) => {
+        if (!file) {
+            console.log("No file provided.");
+            return;
+        }
+
+        console.log("File selected:", file.name, "Type:", file.type, "Size:", file.size);
+
+
+        const supportedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        const isValidType = supportedTypes.includes(file.type.toLowerCase()) || file.type.startsWith("image/");
+
+        if (!isValidType) {
+            const error = `Unsupported file type: ${file.type}. Please select a JPG, PNG, GIF, or WebP image.`;
+            console.error(error);
+            setError(error);
+            return;
+        }
+
+        // Check file size (max 5MB)
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+            const error = `File too large: ${(file.size / 1024 / 1024).toFixed(2)}MB. Maximum size is 5MB.`;
+            console.error(error);
+            setError(error);
+            return;
+        }
+
+
+        setError(null);
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+
+            setUploadedImage({
+                preview: reader.result,
+                name: file.name,
+                size: `${(file.size / 1024).toFixed(0)} KB`,
+                file: file,
+            });
+
+            console.log("Image preview created successfully for:", file.name);
+
+
+            analyzeImage(file);
+        };
+
+        reader.onerror = () => {
+            const error = "Error reading file. Please try again.";
+            console.error("FileReader error:", reader.error);
+            setError(error);
+        };
+
+        reader.readAsDataURL(file);
+    };
 
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
-        if (file && file.type.startsWith("image/")) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                // Set uploaded image with actual preview
-                setUploadedImage({
-                    preview: reader.result, // Use actual uploaded image
-                    name: file.name,
-                    size: `${(file.size / 1024).toFixed(0)} KB`,
-                });
+        processFile(file);
+    };
 
-                // Simulate analysis delay and populate with Lankan Thrip data
-                console.log(`Image "${file.name}" uploaded. Simulating analysis.`);
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        if (!isAnalyzing) {
+            setIsDragOver(true);
+        }
+    };
 
-                // Simulate processing delay
-                setTimeout(() => {
-                    setAnalysisResult({
-                        confidence: "87%",
-                        ailmentName: "Lankan Thrip",
-                        description:
-                            "Biological insecticides such as the fungi Beauveria bassiana and Verticillium lecanii can kill thrips at all life-cycle stages. Insecticidal soap spray is effective against thrips.",
-                        suggestions: [
-                            "How to identify thrip damage?",
-                            "How to get rid of larvae?",
-                            "Chemicals to get rid of Thrips",
-                            "Natural soap mix solutions",
-                            "Biological insecticides guide",
-                        ],
-                    });
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        setIsDragOver(false);
+    };
 
-                    setFromTheWeb({
-                        images: [
-                            { id: "beetle", src: "https://royalbrinkman.com/content/files/webshop-com/other/trips%20560x370.jpg", alt: "Beetle" },
-                            { id: "mushroom", src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPeWDv3ukpyLSZkX1Y83Oe9cviR8iYIRpKVg&s", alt: "Mushroom" },
-                            {
-                                id: "caterpillar",
-                                src: "data:image/jphttps://www.google.com/imgres?q=lankan%20thrip&imgurl=http%3A%2F%2Fwww.knowledgebank.irri.org%2Fimages%2Fstories%2Ffactsheet-thrips.jpg&imgrefurl=http%3A%2F%2Fwww.knowledgebank.irri.org%2Ftraining%2Ffact-sheets%2Fpest-management%2Finsects%2Fitem%2Frice-thrips&docid=HtZJgOyg7npUjM&tbnid=3OT9NfQACynf-M&vet=12ahUKEwjfobeGrMuOAxWMb_UHHdcWJV0QM3oECB0QAA..i&w=640&h=488&hcb=2&ved=2ahUKEwjfobeGrMuOAxWMb_UHHdcWJV0QM3oECB0QAAeg;base64,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",
-                                alt: "Caterpillar",
-                            },
-                        ],
-                        title:
-                            "Thrips are minute (mostly 1 mm (0.04 in) long or less), slender insects with fringed wings and unique asymmetrical mouthparts. They fly only weakly and their feathery wings are unsuitable for conventional flight.",
-                        fullText:
-                            "Thrips are a functionally diverse group; many of the known species are fungivorous. A small proportion of the species are serious pests of commercially important crops. Some of these serve as vectors for over 20 viruses that cause plant disease, especially the Tospoviruses. Many flower-dwelling species bring benefits as pollinators, with some predatory thrips feeding on small insects or mites.",
-                    });
-                }, 1000); // 1 second delay to simulate processing
-            };
-            reader.readAsDataURL(file);
-        } else {
-            console.log("No valid image file selected.");
+    const handleDrop = (e) => {
+        e.preventDefault();
+        setIsDragOver(false);
+
+        if (isAnalyzing) return;
+
+        const files = e.dataTransfer.files;
+        if (files && files[0]) {
+            processFile(files[0]);
         }
     };
 
@@ -77,6 +632,8 @@ const DiagnoseSection = ({ onBack }) => {
         setUploadedImage(null);
         setAnalysisResult(null);
         setFromTheWeb(null);
+        setError(null);
+        setIsAnalyzing(false);
         if (fileInputRef.current) {
             fileInputRef.current.value = ""; // Reset file input
         }
@@ -96,6 +653,17 @@ const DiagnoseSection = ({ onBack }) => {
         console.log("From The Web external link clicked.");
     };
 
+    const handleDetectionModeChange = (mode) => {
+        console.log(`Detection mode changed to: ${mode}`);
+        setDetectionMode(mode);
+
+        // If we have an uploaded image and are not currently analyzing, re-analyze with new mode
+        if (uploadedImage?.file && !isAnalyzing) {
+            console.log(`Re-analyzing image with new detection mode: ${mode}`);
+            analyzeImage(uploadedImage.file, mode);
+        }
+    };
+
     return (
         <div className="diagnose-section-container">
             <div className="diagnose-top-panels">
@@ -105,22 +673,29 @@ const DiagnoseSection = ({ onBack }) => {
                         Upload a Picture <span className="ai-tag-diagnose">AI</span>
                     </h3>
                     {!uploadedImage ? (
-                        <div className="upload-box" onClick={triggerFileInput}>
+                        <div
+                            className={`upload-box ${isAnalyzing ? 'disabled' : ''} ${isDragOver ? 'drag-over' : ''}`}
+                            onClick={!isAnalyzing ? triggerFileInput : undefined}
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                        >
                             <input
                                 type="file"
-                                accept="image/*"
+                                accept="image/jpeg,image/jpg,image/png,image/gif,image/webp,.jpg,.jpeg,.png,.gif,.webp"
                                 onChange={handleImageUpload}
                                 ref={fileInputRef}
                                 style={{ display: "none" }}
+                                disabled={isAnalyzing}
                             />
                             <div className="upload-box-icon">
-                                {" "}
-                                {/* Placeholder for icon if any */}
-                                {/* You can add an SVG icon here */}
+                                📸
                             </div>
-                            <p>Drag & drop an image</p>
+                            <p>{isDragOver ? 'Drop image here' : 'Drag & drop an image (JPG, PNG, GIF, WebP)'}</p>
                             <span>Max 5 MB</span>
-                            <button className="upload-button-diagnose">Upload</button>
+                            <button className="upload-button-diagnose" disabled={isAnalyzing}>
+                                {isAnalyzing ? 'Analyzing...' : 'Upload'}
+                            </button>
                         </div>
                     ) : (
                         <div className="image-preview-area-diagnose">
@@ -139,21 +714,86 @@ const DiagnoseSection = ({ onBack }) => {
                             <p className="image-size-diagnose">{uploadedImage.size}</p>
                         </div>
                     )}
+
+                    {/* Detection Mode Selector */}
+                    <div className="detection-mode-selector">
+                        <div className="detection-mode-title">
+                            <span className="detection-icon">🔍</span>
+                            Detection Method
+                        </div>
+                        <div className="detection-mode-options">
+                            <div
+                                className={`detection-mode-option ${detectionMode === 'auto' ? 'selected' : ''} ${isAnalyzing ? 'disabled' : ''}`}
+                                onClick={() => !isAnalyzing && handleDetectionModeChange('auto')}
+                            >
+                                <div className="detection-mode-label">🤖 Smart Auto</div>
+                                <div className="detection-mode-description">AI chooses best model</div>
+                            </div>
+                            <div
+                                className={`detection-mode-option ${detectionMode === 'pest' ? 'selected' : ''} ${isAnalyzing ? 'disabled' : ''}`}
+                                onClick={() => !isAnalyzing && handleDetectionModeChange('pest')}
+                            >
+                                <div className="detection-mode-label">🦠 Disease/Pest</div>
+                                <div className="detection-mode-description">Focus on plant diseases</div>
+                            </div>
+                            <div
+                                className={`detection-mode-option ${detectionMode === 'insect' ? 'selected' : ''} ${isAnalyzing ? 'disabled' : ''}`}
+                                onClick={() => !isAnalyzing && handleDetectionModeChange('insect')}
+                            >
+                                <div className="detection-mode-label">🐛 Insect</div>
+                                <div className="detection-mode-description">Focus on insect species</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Infection Details Panel */}
                 <div className="diagnose-details-panel">
-                    <h3 className="diagnose-panel-title">Infection Details</h3>
+                    <h3 className="diagnose-panel-title">Detection Results</h3>
                     <div className="infection-details-card">
-                        {analysisResult ? (
+                        {isAnalyzing ? (
+                            <div className="analyzing-state">
+                                <div className="loading-spinner"></div>
+                                <p className="analyzing-text">Analyzing image with AI...</p>
+                                <p className="analyzing-subtext">This may take a few moments</p>
+                            </div>
+                        ) : error ? (
+                            <div className="error-state">
+                                <p className="error-text">⚠️ Analysis Failed</p>
+                                <p className="error-description">{error}</p>
+                                <button
+                                    onClick={() => uploadedImage?.file && analyzeImage(uploadedImage.file)}
+                                    className="retry-button"
+                                >
+                                    Try Again
+                                </button>
+                            </div>
+                        ) : analysisResult ? (
                             <>
                                 <p className="confidence-text">
                                     {analysisResult.confidence} Confidence
                                 </p>
                                 <h2 className="ailment-name">{analysisResult.ailmentName}</h2>
+                                <p className="detection-type">{analysisResult.detectionType}</p>
+                                <p className="model-used">{analysisResult.modelUsed}</p>
                                 <p className="ailment-description">
                                     {analysisResult.description}
                                 </p>
+
+                                {/* Show alternative results if available */}
+                                {analysisResult.alternativeResults && analysisResult.alternativeResults.length > 0 && (
+                                    <div className="alternative-results">
+                                        <h4>Alternative Detection:</h4>
+                                        {analysisResult.alternativeResults.map((alt, index) => (
+                                            <div key={index} className="alternative-item">
+                                                <span className="alt-type">{alt.type}:</span>
+                                                <span className="alt-name">{alt.name}</span>
+                                                <span className="alt-confidence">({alt.confidence})</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
                                 <div className="suggestion-buttons-diagnose">
                                     {analysisResult.suggestions.map((suggestion, index) => (
                                         <button
@@ -177,8 +817,8 @@ const DiagnoseSection = ({ onBack }) => {
                         ) : (
                             <>
                                 <p className="confidence-text-placeholder">Confidence</p>
-                                <h2 className="ailment-name-placeholder">Ailment</h2>
-                                <p className="ailment-description-placeholder">Description</p>
+                                <h2 className="ailment-name-placeholder">Upload an image to start detection</h2>
+                                <p className="ailment-description-placeholder">Our AI will analyze your plant image for pests, diseases, and insects</p>
                                 <div className="suggestion-buttons-diagnose placeholder">
                                     <button>How do I use this tool?</button>
                                     <button>How accurate are these results?</button>
@@ -198,7 +838,7 @@ const DiagnoseSection = ({ onBack }) => {
             {/* From The Web Panel */}
             <div className="diagnose-from-the-web-panel">
                 <div className="from-the-web-header">
-                    <h3 className="diagnose-panel-title">From The Web</h3>
+                    <h3 className="diagnose-panel-title">Additional Information</h3>
                     {fromTheWeb && (
                         <button
                             className="external-link-button"
@@ -224,7 +864,12 @@ const DiagnoseSection = ({ onBack }) => {
                         </button>
                     )}
                 </div>
-                {fromTheWeb ? (
+                {isAnalyzing ? (
+                    <div className="from-the-web-loading">
+                        <div className="loading-spinner"></div>
+                        <p>Gathering additional information...</p>
+                    </div>
+                ) : fromTheWeb ? (
                     <div className="web-info-card">
                         <div className="web-info-left">
                             <div className="web-info-images">
@@ -268,7 +913,7 @@ const DiagnoseSection = ({ onBack }) => {
                                 strokeLinejoin="round"
                             />
                         </svg>
-                        <p>Upload an image to see pest/infection details</p>
+                        <p>Upload an image to see additional information about detected issues</p>
                     </div>
                 )}
             </div>
