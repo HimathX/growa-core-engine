@@ -47,9 +47,9 @@ app = FastAPI(
 
 # Include routers
 app.include_router(auth_router, prefix="/auth")
-#app.include_router(pest_router, prefix="/pest")
-#app.include_router(insects_router, prefix="/insects") 
-#app.include_router(chatbot_router, prefix="/chatbot")
+app.include_router(pest_router, prefix="/pest")
+app.include_router(insects_router, prefix="/insects") 
+app.include_router(chatbot_router, prefix="/chatbot")
 app.include_router(crop_recommendation_router, prefix="/crop-recommendation")
 app.include_router(harvest_router, prefix="/harvest")
 app.include_router(crop_router, prefix="/crops")
