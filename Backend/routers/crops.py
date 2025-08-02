@@ -40,7 +40,6 @@ async def create_crop(request: CreateCropRequest):
             "crop_type": request.crop_category.value,
             "planting_date": request.planting_date.isoformat(),
             "plant_count": request.plant_count,
-            "size": request.size,
             "location": request.location.value,
             "area_size": request.area_size,
             "user_id": request.user_id,
@@ -120,7 +119,6 @@ async def create_crop(request: CreateCropRequest):
             "crop_type": request.crop_category.value,
             "planting_date": request.planting_date,
             "plant_count": request.plant_count,
-            "size": request.size,
             "location": request.location.value,
             "area_size": request.area_size,
             "user_id": request.user_id,
@@ -278,7 +276,6 @@ async def update_task_status(crop_id: str, task_id: str, status_update: TaskStat
             crop_category=CropCategory(crop["crop_type"]),
             planting_date=datetime.fromisoformat(crop["planting_date"]).date(),
             plant_count=crop["plant_count"],
-            size=crop["size"],
             location=crop["location"],
             area_size=crop["area_size"],
             user_id=crop["user_id"]

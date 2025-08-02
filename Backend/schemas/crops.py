@@ -94,7 +94,6 @@ class CreateCropRequest(BaseModel):
     crop_category: CropCategory = Field(..., description="Type of crop to plant")
     planting_date: date = Field(..., description="Date when the crop was/will be planted")
     plant_count: int = Field(..., gt=0, description="Number of plants")
-    size: float = Field(..., gt=0, description="Size of the field in acres/hectares")
     location: District = Field(..., description="District where crop is located")
     area_size: float = Field(..., gt=0, description="Area size in square meters")
     user_id: str = Field(..., description="ID of the user creating the crop")
